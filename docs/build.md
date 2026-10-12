@@ -52,6 +52,11 @@ parameters and should be stored explicitly in benchmark configurations.
 
 ## CI coverage
 
+Linux libc and libstdc++ compatibility requirements belong to each build's
+target/sysroot. The trixie package's GLIBC 2.38 requirement is not a project
+minimum. Use an older sysroot when targeting older distributions, inspect the
+resulting ELF symbol versions, and validate loading and output on that target.
+
 `.github/workflows/build.yml` compiles Windows x86_64 with MSYS2 MINGW64 and
 Linux x86_64 inside `python:3.13-slim-trixie`, with GCC and Clang. Both use locked API/Vulkan headers, run
 the actual generated transform codelets against NumPy FFT, and attach a zip

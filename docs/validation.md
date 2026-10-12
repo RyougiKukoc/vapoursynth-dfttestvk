@@ -41,6 +41,24 @@ explicit per-sample ULP budget after quantizing oracle input and output.
 
 ## Reference limitations and defined edge behavior
 
+The implementation is not bit-exact against DFTTest2 CPU or NVRTC. In the
+24-frame real 1080p Gray16 test, 0.001460825% of samples differed from NVRTC
+and 0.092242959% differed from CPU; every nonzero difference was one 16-bit
+storage code. Across all YUV420P16 planes, weighted by their sample counts,
+the corresponding fractions were 0.001370403% and 0.084206747%. Four of the
+24 frames matched NVRTC in every integer sample; the other frames did not.
+
+GrayS also was not bit-exact: its maximum absolute difference was
+2.3841858e-7 against NVRTC and 2.9802322e-7 against CPU. A small absolute
+error does not imply equality of all floating-point samples. FP16 tests
+allowed one half ULP. Passing these budgets is distinct from bit identity.
+
+The 15 recorded cache/direct comparisons produced equal numerical values,
+and repeated/concurrent request checks matched their own serial outputs.
+These are scoped consistency results, not a promise for every window or
+backend. Windows and Linux were independently checked against the oracle;
+their output bits have not been compared directly across platforms.
+
 The oracle independently implements NumPy float64 RFFT/IRFFT, windows,
 frequency curves and scalar overlap-add; it imports no project shader or
 DFTTest2 implementation. Unnormalized inverse scaling is explicit. Native

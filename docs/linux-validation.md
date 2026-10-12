@@ -62,11 +62,20 @@ the `final/` record contains both compilers and the current checks.
 | GCC | 873712 | `b18db7e0a82cd9bf574acc4b5a569b2ec51bc0f8bf33c58dd37f42a7fb60c4ff` |
 | Clang | 898392 | `c5beece669fee7d03d5a1e75b8e9c2dc948d9105436982e1b0a0ccf091a9aa15` |
 
-Both builds require symbols through `GLIBC_2.38` and `GLIBCXX_3.4.31`.
+These particular trixie builds require symbols through `GLIBC_2.38` and `GLIBCXX_3.4.31`.
 The GCC ELF additionally requires `CXXABI_1.3.15`; use a compatible libstdc++
 runtime, such as the tested GCC 14 library. These trixie binaries are not a
 manylinux compatibility claim and should not be presented as portable to
 older Linux distributions. Clang's use of libstdc++ is recorded explicitly.
+
+GLIBC 2.38 is a requirement of these artifacts, not an intrinsic minimum of
+DFTTestVK. The 2.38 reference is `__isoc23_strtol`, selected by the newer
+system headers for the ordinary `std::strtol` calls that parse environment
+variables. Builds for other Linux targets should use the target's older
+glibc/sysroot and a suitable C++20 toolchain, then inspect symbol versions and
+revalidate against the corresponding VapourSynth and driver runtimes.
+Their compatibility floor must be measured from those artifacts rather than
+copied from this trixie result; no lower-glibc package has been verified here.
 
 ## Reproduction
 
