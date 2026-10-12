@@ -9,12 +9,33 @@ import numpy as np
 import vapoursynth as vs
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_DLL = ROOT / "build" / "dfttestvk.dll"
+DEFAULT_DLL = ROOT / "build" / ("dfttestvk.dll" if os.name == "nt" else "dfttestvk.so")
 CUDA_REFERENCE = ROOT / "reference" / "backend-artifacts" / "dfttest2-cu129-win64" / "dfttest2"
 _DLL_DIRECTORIES = []
+_DEVICE_SELECTED = False
 FORMATS = {name.lower(): getattr(vs, name) for name in
            ("GRAY8", "GRAY9", "GRAY10", "GRAY12", "GRAY14", "GRAY16", "GRAYH", "GRAYS",
             "YUV420P8", "YUV420P10", "YUV420P16", "YUV444PH", "YUV444PS", "RGB24", "RGB48", "RGBH", "RGBS")}
+
+
+def select_device(core):
+    """Select an explicitly requested Vulkan device before any GPU operation."""
+    global _DEVICE_SELECTED
+    if _DEVICE_SELECTED:
+        return
+    expected = os.environ.get("DFTTESTVK_DEVICE_UUID")
+    index = os.environ.get("DFTTESTVK_DEVICE")
+    if expected:
+        expected = expected.lower().removeprefix("gpu-").replace("-", "")
+        choices = [d for d in core.vulkan_devices if d["uuid"].lower().replace("-", "") == expected]
+        if len(choices) != 1:
+            raise RuntimeError("Requested Vulkan UUID is missing or ambiguous: " + expected)
+        if not choices[0]["usable"]:
+            raise RuntimeError("Requested Vulkan device is unusable: " + choices[0].get("reason", ""))
+        core.set_vulkan_device(choices[0]["index"])
+    elif index is not None:
+        core.set_vulkan_device(int(index))
+    _DEVICE_SELECTED = True
 
 
 def sha256(path):
@@ -37,6 +58,7 @@ def environment(core):
 
 
 def load_native(core, dll=DEFAULT_DLL):
+    select_device(core)
     dll = Path(dll).resolve()
     if not dll.is_file():
         raise FileNotFoundError(f"Build the plugin first: {dll}")

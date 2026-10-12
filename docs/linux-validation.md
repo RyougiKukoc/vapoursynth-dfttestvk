@@ -7,7 +7,14 @@ VapourSynth R81 loaded both plugins. GCC completed the 98-case full correctness
 suite and 15 cache cases; Clang completed eight smoke cases. Compute ran
 through Mesa's software Vulkan implementation, with numerical checks against
 the independent NumPy FFT oracle. This is Linux build and software-Vulkan functional evidence;
-Linux hardware-GPU correctness and performance have not been measured.
+the native A100 result below is the separate hardware-GPU evidence.
+
+The same source was then built natively on Ubuntu 22.04 (glibc 2.35) with
+GCC 11.4.0 and Miniforge Python 3.13. R81 selected NVIDIA A100-PCIE-40GB
+UUID GPU-3d6249d3-3e1a-3281-6aba-bc2d7a1fb83b, driver 580.95.05 and Vulkan
+API 1.4.312. The full correctness, cache, generic, resident, invalid and
+stress suite passed; the separate Khronos validation-layer run passed both
+synchronization stages without a VUID or synchronization hazard.
 
 ## Recorded environment
 
@@ -42,6 +49,8 @@ they do not imply that any unrelated R81-labelled header is interchangeable.
 | GCC smoke | Eight cases passed the same native path and all-pixel oracle checks. Stored metadata identifies the actual SO and SHA256. |
 | GCC cache / request order | All 15 cases passed at seven frames, eight workers and one shuffled round: capacities 1/2/12, T=1/3/7, budget fallback, eviction and concurrent duplicates. Cache output matches direct processing within the recorded budgets; reverse / shuffled / duplicate requests match the same node's serial pixels and properties exactly. |
 | Clang runtime smoke | The distinct Clang SO was loaded by R81 and all eight smoke cases passed the oracle through llvmpipe. |
+| Native A100 hardware GPU | GCC build on glibc 2.35; 12 serial stages including validation-layer synchronization stages passed on the selected A100. |
+| Windows/Linux fixture comparison | Ten canonical Gray16/GrayS cases, 50 outputs and 256,000 samples were bit-exact between the Windows RTX build and this A100 build. This bounded fixture does not guarantee universal cross-platform bit identity. |
 
 Build commands, return codes, hashes, symbol-version requirements and the
 initializer records are in
@@ -138,9 +147,10 @@ later requires storing the new image digest and package versions. The hashes
 above identify this validation run, not a promise of byte-identical future
 builds.
 
-llvmpipe executes Vulkan compute on the CPU. Passing here checks Linux plugin
-loading, shader compilation and functional output through a real Vulkan
-implementation, but cannot establish NVIDIA / AMD / Intel Linux GPU behavior
-or throughput. The Windows RTX 3090 Ti benchmark remains separately scoped
-in [benchmark.md](benchmark.md). No Linux hardware performance number is
-derived from this software driver.
+llvmpipe executes Vulkan compute on the CPU, while the native A100 run covers
+one Linux hardware GPU and driver. The A100 Gray16/T=3 endpoint benchmark used
+16 workers, eight prefetched requests and completed CPU outputs, producing
+503.98, 506.30 and 508.62 fps (median 506.30); no Linux NVRTC baseline was
+available on that host. These numbers do not establish behavior or throughput
+for other vendors or devices. The Windows RTX benchmark remains separately
+scoped in [benchmark.md](benchmark.md).
