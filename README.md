@@ -41,7 +41,7 @@ memory and storage-buffer limits still apply. The 16-point compute kernels
 use FFTW codelets adapted from DFTTest2's CUDA implementation, with explicit
 static indexing. The default workgroup starts at 16 tiles and selects
 16/8/4/2 tiles according to device limits.
-Empty or omitted `planes` processes every plane. Selected unprocessed planes
+Omitted `planes` or `planes=None` processes every plane. Selected unprocessed planes
 share their source pixels and preserve frame properties.
 
 Use `smode=1, tmode=0, tosize=0`; temporal overlap-add and `nlocation/alpha`

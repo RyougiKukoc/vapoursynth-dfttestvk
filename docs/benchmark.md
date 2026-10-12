@@ -52,7 +52,7 @@ The Vulkan Gray16 T=7 run range was wider than the other Vulkan rows, with
 one faster repeat; the median and full range are both retained rather than
 selecting that run as the result.
 
-## Exact workload and protocol
+## Exact main workload and protocol
 
 The environment was Windows with VapourSynth R81, NVIDIA GeForce RTX 3090 Ti
 and driver 617.42. Every main-matrix configuration used 16 VapourSynth worker threads,
@@ -82,7 +82,7 @@ zmean=True, f0beta=1, ssystem=0, planes=all
 ```
 
 The Vulkan-only controls were `cache=-1`, `cache_frames=12`, `cache_mb=0`.
-This enables spatial-spectrum reuse, with the creation-time cache budget
+For T>1 this enables spatial-spectrum reuse, with the creation-time cache budget
 derived from one quarter of the core's VRAM limit. This discrete device also
 uses the default source copy to a device-local buffer before preprocessing.
 
