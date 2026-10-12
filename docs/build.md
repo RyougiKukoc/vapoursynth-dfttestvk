@@ -53,7 +53,7 @@ parameters and should be stored explicitly in benchmark configurations.
 ## CI coverage
 
 `.github/workflows/build.yml` compiles Windows x86_64 with MSYS2 MINGW64 and
-Linux x86_64 with Ubuntu's compiler. Both use locked API/Vulkan headers, run
+Linux x86_64 inside `python:3.13-slim-trixie`, with GCC and Clang. Both use locked API/Vulkan headers, run
 the actual generated transform codelets against NumPy FFT, and attach a zip
 artifact. They do not publish releases or install a plugin globally.
 
@@ -63,6 +63,11 @@ performance benchmark, including tiny dimensions, nonrectangular temporal
 windows, all planes and concurrent/random/reverse requests. The tests' output
 reports include loaded plugin paths and hashes so an autoloaded reference
 cannot satisfy a test accidentally. See `tests/README.md`.
+
+Local Linux x86_64 GCC/Clang builds and a VapourSynth R81 software-Vulkan
+runtime check were completed in `python:3.13-slim-trixie` with Docker and
+proxy port 7890. See [linux-validation.md](linux-validation.md) for the native
+ELF evidence, runtime scope, libc requirements and reproduction commands.
 
 ## Deterministic packaging
 

@@ -42,6 +42,9 @@ def main() -> None:
     files = {"dfttestvk" + suffix: args.binary.read_bytes()}
     for name in ("README.md", "LICENSE", "THIRD_PARTY.md", "docs/algorithm.md", "docs/build.md", "docs/temporal-cache-design.md", "docs/validation.md", "docs/optimization-notes.md", "docs/benchmark.md"):
         files[name] = (ROOT / name).read_bytes()
+    for name in ("docs/linux-validation.md", "docs/holywu-techniques.md"):
+        if (ROOT / name).is_file():
+            files[name] = (ROOT / name).read_bytes()
     source_lock = json.loads((ROOT / "reference" / "source-lock.json").read_text("utf-8"))
     # Local development installation paths do not belong in a distributable package.
     installed = source_lock.get("installed_references", {})

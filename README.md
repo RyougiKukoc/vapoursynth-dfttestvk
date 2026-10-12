@@ -107,6 +107,9 @@ so graph creation time is distinct from steady-state throughput.
 The local clean rebuild with freshly fetched pinned SDKs produced the same
 DLL SHA256 as the development build; details are in [docs/build.md](docs/build.md).
 
+Linux x86_64 GCC/Clang builds and R81 software-Vulkan execution were also
+verified in Docker with Python 3.13 / Debian trixie; see [docs/linux-validation.md](docs/linux-validation.md).
+
 ## Reproduce transforms and references
 
 The generated shader header is committed, so building does not require
