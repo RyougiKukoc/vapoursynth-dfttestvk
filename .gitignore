@@ -1,0 +1,8 @@
+/build*/
+/dependencies/
+/reference/backend-artifacts/
+/results/
+/dist/
+/tests/results/
+__pycache__/
+*.pyc

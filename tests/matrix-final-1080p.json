@@ -1,0 +1,524 @@
+[
+  {
+    "name": "gray16-t1-source",
+    "config": {
+      "backend": "source",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t1-original",
+    "config": {
+      "backend": "original",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t1-cpu",
+    "config": {
+      "backend": "cpu",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t1-nvrtc",
+    "config": {
+      "backend": "nvrtc",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      },
+      "options": {
+        "num_streams": 4
+      }
+    }
+  },
+  {
+    "name": "gray16-t1-cuda",
+    "config": {
+      "backend": "cuda",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t1-vk",
+    "config": {
+      "backend": "vk",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t3-source",
+    "config": {
+      "backend": "source",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t3-original",
+    "config": {
+      "backend": "original",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t3-cpu",
+    "config": {
+      "backend": "cpu",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t3-nvrtc",
+    "config": {
+      "backend": "nvrtc",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "options": {
+        "num_streams": 4
+      }
+    }
+  },
+  {
+    "name": "gray16-t3-cuda",
+    "config": {
+      "backend": "cuda",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t3-vk",
+    "config": {
+      "backend": "vk",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t7-source",
+    "config": {
+      "backend": "source",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t7-original",
+    "config": {
+      "backend": "original",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t7-cpu",
+    "config": {
+      "backend": "cpu",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t7-nvrtc",
+    "config": {
+      "backend": "nvrtc",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      },
+      "options": {
+        "num_streams": 4
+      }
+    }
+  },
+  {
+    "name": "gray16-t7-cuda",
+    "config": {
+      "backend": "cuda",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "gray16-t7-vk",
+    "config": {
+      "backend": "vk",
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t1-source",
+    "config": {
+      "backend": "source",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t1-original",
+    "config": {
+      "backend": "original",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t1-cpu",
+    "config": {
+      "backend": "cpu",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t1-nvrtc",
+    "config": {
+      "backend": "nvrtc",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      },
+      "options": {
+        "num_streams": 4
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t1-cuda",
+    "config": {
+      "backend": "cuda",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t1-vk",
+    "config": {
+      "backend": "vk",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 1,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t3-source",
+    "config": {
+      "backend": "source",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t3-original",
+    "config": {
+      "backend": "original",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t3-cpu",
+    "config": {
+      "backend": "cpu",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t3-nvrtc",
+    "config": {
+      "backend": "nvrtc",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "options": {
+        "num_streams": 4
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t3-cuda",
+    "config": {
+      "backend": "cuda",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t3-vk",
+    "config": {
+      "backend": "vk",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t7-source",
+    "config": {
+      "backend": "source",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t7-original",
+    "config": {
+      "backend": "original",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t7-cpu",
+    "config": {
+      "backend": "cpu",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t7-nvrtc",
+    "config": {
+      "backend": "nvrtc",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      },
+      "options": {
+        "num_streams": 4
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t7-cuda",
+    "config": {
+      "backend": "cuda",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  },
+  {
+    "name": "yuv420p16-t7-vk",
+    "config": {
+      "backend": "vk",
+      "format": "yuv420p16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 7,
+        "twin": 7
+      }
+    }
+  }
+]

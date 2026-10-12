@@ -1,0 +1,65 @@
+name: Native build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            git
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
+            mingw-w64-x86_64-python
+            mingw-w64-x86_64-python-numpy
+      - name: Fetch pinned headers and build
+        shell: msys2 {0}
+        run: |
+          python tools/fetch_dependencies.py --with-vapoursynth
+          python tools/build.py --compiler g++ --parallel 2
+          python tools/verify_fft_codelets.py --compiler g++
+      - name: Package local artifact
+        shell: msys2 {0}
+        run: python tools/package_release.py --binary build/dfttestvk.dll --platform windows
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dfttestvk-windows-x86_64
+          path: dist/*
+          if-no-files-found: error
+
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ cmake ninja-build git
+          python -m pip install numpy
+      - name: Fetch pinned headers and build
+        run: |
+          python tools/fetch_dependencies.py --with-vapoursynth
+          python tools/build.py --compiler g++ --parallel 2
+          python tools/verify_fft_codelets.py --compiler g++
+      - name: Package local artifact
+        run: python tools/package_release.py --binary build/dfttestvk.so --platform linux
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dfttestvk-linux-x86_64
+          path: dist/*
+          if-no-files-found: error

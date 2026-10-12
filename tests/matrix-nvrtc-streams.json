@@ -1,0 +1,70 @@
+[
+  {
+    "name": "nvrtc-stream1",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "nvrtc",
+      "options": {
+        "num_streams": 1
+      }
+    }
+  },
+  {
+    "name": "nvrtc-stream2",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "nvrtc",
+      "options": {
+        "num_streams": 2
+      }
+    }
+  },
+  {
+    "name": "nvrtc-stream4",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "nvrtc",
+      "options": {
+        "num_streams": 4
+      }
+    }
+  },
+  {
+    "name": "nvrtc-stream8",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "nvrtc",
+      "options": {
+        "num_streams": 8
+      }
+    }
+  }
+]

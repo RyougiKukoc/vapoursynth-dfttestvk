@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.dll binary
+*.so binary
+*.npz binary
+*.zip binary
+# Generated GLSL raw strings retain indentation on empty lines.
+src/shaders.h -whitespace
+src/cached_shaders.h -whitespace

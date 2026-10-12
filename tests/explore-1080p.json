@@ -1,0 +1,94 @@
+[
+  {
+    "name": "source",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "source",
+      "options": {}
+    }
+  },
+  {
+    "name": "original",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "original",
+      "options": {}
+    }
+  },
+  {
+    "name": "cpu",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "cpu",
+      "options": {}
+    }
+  },
+  {
+    "name": "nvrtc",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "nvrtc",
+      "options": {
+        "num_streams": 4
+      }
+    }
+  },
+  {
+    "name": "cuda",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "cuda",
+      "options": {}
+    }
+  },
+  {
+    "name": "vk",
+    "config": {
+      "format": "gray16",
+      "raw_yuv420p16": "D:/WorkSpace-bm3d/sample-1080p.yuv",
+      "params": {
+        "sbsize": 16,
+        "sosize": 12,
+        "tbsize": 3,
+        "twin": 7
+      },
+      "backend": "vk",
+      "options": {}
+    }
+  }
+]

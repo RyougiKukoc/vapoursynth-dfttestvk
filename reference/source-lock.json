@@ -1,0 +1,68 @@
+{
+  "audit_date": "2026-10-12",
+  "build_sdk": {
+    "vapoursynth": {
+      "repository": "https://github.com/vapoursynth/vapoursynth",
+      "commit": "dd11a9da6f8e2bb24ab4bb084d44bf01fb93612a"
+    },
+    "vulkan_headers": {
+      "repository": "https://github.com/KhronosGroup/Vulkan-Headers",
+      "commit": "e3b1eec08173d6b825cd3ac88c885a63b621504a"
+    }
+  },
+  "sources": [
+    {
+      "repository": "https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DFTTest",
+      "commit": "bc5e0186a7f309556f20a8e9502f2238e39179b8",
+      "role": "original CPU algorithm"
+    },
+    {
+      "repository": "https://github.com/AliceTeaParty/vapoursynth-api4-wheels",
+      "commit": "d30ef2febe1b518ff8f2eda001d1d8506dababb6",
+      "path": "plugins/vapoursynth-dfttest2",
+      "role": "current DFTTest2 algorithm and API4 packaging",
+      "files_sha256_lf": {
+        "dfttest2/_dfttest2.py": "ff3c27e95317012a866550389e2f2b4821207563b654571f942122d3a3bf5d15",
+        "nvrtc_source/kernel.hpp": "a2cd8cbe6bcac0a542a193c05b669f62e9ed5275c5da1aba23326ee5219bd045",
+        "nvrtc_source/dft_kernels.hpp": "65f5f05fdab3e10acbb2ee0ac18b92a35c612c41e25c7f47c6e3c38bce474d79",
+        "cpu_source/getframe_impl.cpp": "bcc667cb3668f40644dda4e33f7a42773a16351a7b6b86bc18ad249fecbff58d"
+      }
+    }
+  ],
+  "reference_release": {
+    "tag": "vapoursynth-dfttest2-cu129-v10.2+alice.1",
+    "commit": "761a31347abef38fff50b821d0e800c73d774b39",
+    "published_at": "2026-10-07T10:40:27Z",
+    "artifact": "dfttest2-cu129-win64.zip",
+    "url": "https://github.com/AliceTeaParty/vapoursynth-api4-wheels/releases/download/vapoursynth-dfttest2-cu129-v10.2%2Balice.1/dfttest2-cu129-win64.zip",
+    "bytes": 389179516,
+    "github_sha256": "7aaa1f8a23e736d78ad05a1484fb74bc549287870c24fbf83635a5b31baf7ca3",
+    "download_verified_sha256": "7aaa1f8a23e736d78ad05a1484fb74bc549287870c24fbf83635a5b31baf7ca3",
+    "plugins_sha256": {
+      "dfttest2_nvrtc.dll": "68be33d23222ae4a194f335ae995cda7cfbf48e3788225452fd66b100a9630eb",
+      "dfttest2_cuda.dll": "a702cf3a345da150da3da7346d07b8c94df366f00c32c6e9d7c49f158152bf1d",
+      "dfttest2_cpu.dll": "63c8af68fb0ef93c38eeaebc0caa2a1a4c3c0dc99ab5d6ae272f6cc56b8df0f0"
+    },
+    "load_verification": {
+      "nvrtc_version": "vapoursynth-dfttest2-cu129-v10.2+alice.1-0-g761a313",
+      "cuda_version": "vapoursynth-dfttest2-cu129-v10.2+alice.1-0-g761a313",
+      "cufft_version": 11401,
+      "gpu_execution": false,
+      "global_installation_modified": false
+    }
+  },
+  "installed_references": {
+    "vapoursynth_version": "R81",
+    "python": "C:/green/WPy64-31470/python/python.exe",
+    "dfttest": {
+      "path": "C:/green/WPy64-31470/python/Lib/site-packages/vapoursynth/plugins/dfttest/dfttest.dll",
+      "sha256": "416a8eabb88655fc91a11806d90dc553b6e3843804f7fd838b16d5d2f4041b9f"
+    },
+    "dfttest2_cpu": {
+      "path": "C:/green/WPy64-31470/python/Lib/site-packages/vapoursynth/plugins/dfttest2/dfttest2_cpu.dll",
+      "sha256": "b5a35ea756119e2545f42d36e0d045e8b47edc16b9edafd0645d560d76f40b54",
+      "version": "vapoursynth-dfttest2-cpu-v10.2-0-g4574285",
+      "dispatch_targets": ["auto", "sse2", "avx2", "avx512f"]
+    }
+  }
+}
