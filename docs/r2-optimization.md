@@ -64,3 +64,7 @@ and five real-video positions in both Gray16 and YUV420P16 against NVRTC.
 Linux GCC and Clang builds/registration/FFT checks passed; Mesa llvmpipe passed
 98 full cases, 15 cache cases and eight Clang-build smoke cases. Linux records
 establish software-Vulkan behavior; performance above is Windows NVIDIA only.
+
+`source.json` hashes the committed source and evidence bytes. Text evidence
+uses LF line endings for portable verification; binary and pixel hashes inside
+the reports still identify the original measured data.
