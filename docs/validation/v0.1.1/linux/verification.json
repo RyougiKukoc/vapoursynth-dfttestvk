@@ -1,0 +1,374 @@
+{
+  "environment": {
+    "python": "3.13.15 (main, Sep  1 2026, 00:07:39) [GCC 14.2.0]",
+    "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "os_release": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.6\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+    "proxy": {
+      "http_proxy": null,
+      "https_proxy": null
+    }
+  },
+  "commands": [
+    {
+      "name": "packages",
+      "command": [
+        "dpkg-query",
+        "-W",
+        "g++",
+        "clang",
+        "cmake",
+        "ninja-build",
+        "libc6",
+        "libstdc++6"
+      ],
+      "returncode": 0,
+      "seconds": 0.008446907000006831,
+      "log": "packages.log"
+    },
+    {
+      "name": "python-packages",
+      "command": [
+        "/usr/local/bin/python",
+        "-m",
+        "pip",
+        "freeze"
+      ],
+      "returncode": 0,
+      "seconds": 0.19118071200000486,
+      "log": "python-packages.log"
+    },
+    {
+      "name": "gcc-version",
+      "command": [
+        "/usr/bin/g++",
+        "--version"
+      ],
+      "returncode": 0,
+      "seconds": 0.002856138000026931,
+      "log": "gcc-version.log"
+    },
+    {
+      "name": "gcc-configure",
+      "command": [
+        "cmake",
+        "-S",
+        "/src",
+        "-B",
+        "/out/build-gcc",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_CXX_COMPILER=/usr/bin/g++",
+        "-DVAPOURSYNTH_INCLUDE_DIR=/src/dependencies/vapoursynth/include",
+        "-DVULKAN_HEADERS=/src/dependencies/vulkan-headers/include"
+      ],
+      "returncode": 0,
+      "seconds": 0.6730165320000197,
+      "log": "gcc-configure.log"
+    },
+    {
+      "name": "gcc-build",
+      "command": [
+        "cmake",
+        "--build",
+        "/out/build-gcc",
+        "--parallel",
+        "2"
+      ],
+      "returncode": 0,
+      "seconds": 4.113496510999994,
+      "log": "gcc-build.log"
+    },
+    {
+      "name": "gcc-file",
+      "command": [
+        "file",
+        "/out/build-gcc/dfttestvk.so"
+      ],
+      "returncode": 0,
+      "seconds": 0.027347792999989906,
+      "log": "gcc-file.log"
+    },
+    {
+      "name": "gcc-symbols",
+      "command": [
+        "nm",
+        "-D",
+        "--defined-only",
+        "/out/build-gcc/dfttestvk.so"
+      ],
+      "returncode": 0,
+      "seconds": 0.022957313999995677,
+      "log": "gcc-symbols.log"
+    },
+    {
+      "name": "gcc-dependencies",
+      "command": [
+        "ldd",
+        "-r",
+        "/out/build-gcc/dfttestvk.so"
+      ],
+      "returncode": 0,
+      "seconds": 0.013170237999986512,
+      "log": "gcc-dependencies.log"
+    },
+    {
+      "name": "gcc-symbol-versions",
+      "command": [
+        "readelf",
+        "--version-info",
+        "--wide",
+        "/out/build-gcc/dfttestvk.so"
+      ],
+      "returncode": 0,
+      "seconds": 0.007777040999997098,
+      "log": "gcc-symbol-versions.log"
+    },
+    {
+      "name": "gcc-fft-codelets",
+      "command": [
+        "/usr/local/bin/python",
+        "/src/tools/verify_fft_codelets.py",
+        "--compiler",
+        "/usr/bin/g++"
+      ],
+      "returncode": 0,
+      "seconds": 0.926093298000012,
+      "log": "gcc-fft-codelets.log"
+    },
+    {
+      "name": "gcc-generic-fft",
+      "command": [
+        "/usr/local/bin/python",
+        "/src/tools/verify_generic_fft.py",
+        "--compiler",
+        "/usr/bin/g++"
+      ],
+      "returncode": 0,
+      "seconds": 1.5750358810000193,
+      "log": "gcc-generic-fft.log"
+    },
+    {
+      "name": "clang-version",
+      "command": [
+        "/usr/bin/clang++",
+        "--version"
+      ],
+      "returncode": 0,
+      "seconds": 0.01715891899999633,
+      "log": "clang-version.log"
+    },
+    {
+      "name": "clang-configure",
+      "command": [
+        "cmake",
+        "-S",
+        "/src",
+        "-B",
+        "/out/build-clang",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_CXX_COMPILER=/usr/bin/clang++",
+        "-DVAPOURSYNTH_INCLUDE_DIR=/src/dependencies/vapoursynth/include",
+        "-DVULKAN_HEADERS=/src/dependencies/vulkan-headers/include"
+      ],
+      "returncode": 0,
+      "seconds": 0.7359723430000145,
+      "log": "clang-configure.log"
+    },
+    {
+      "name": "clang-build",
+      "command": [
+        "cmake",
+        "--build",
+        "/out/build-clang",
+        "--parallel",
+        "2"
+      ],
+      "returncode": 0,
+      "seconds": 3.231870979000007,
+      "log": "clang-build.log"
+    },
+    {
+      "name": "clang-file",
+      "command": [
+        "file",
+        "/out/build-clang/dfttestvk.so"
+      ],
+      "returncode": 0,
+      "seconds": 0.02672497100002147,
+      "log": "clang-file.log"
+    },
+    {
+      "name": "clang-symbols",
+      "command": [
+        "nm",
+        "-D",
+        "--defined-only",
+        "/out/build-clang/dfttestvk.so"
+      ],
+      "returncode": 0,
+      "seconds": 0.020621980999976586,
+      "log": "clang-symbols.log"
+    },
+    {
+      "name": "clang-dependencies",
+      "command": [
+        "ldd",
+        "-r",
+        "/out/build-clang/dfttestvk.so"
+      ],
+      "returncode": 0,
+      "seconds": 0.013342634000025555,
+      "log": "clang-dependencies.log"
+    },
+    {
+      "name": "clang-symbol-versions",
+      "command": [
+        "readelf",
+        "--version-info",
+        "--wide",
+        "/out/build-clang/dfttestvk.so"
+      ],
+      "returncode": 0,
+      "seconds": 0.0072683459999893785,
+      "log": "clang-symbol-versions.log"
+    },
+    {
+      "name": "clang-fft-codelets",
+      "command": [
+        "/usr/local/bin/python",
+        "/src/tools/verify_fft_codelets.py",
+        "--compiler",
+        "/usr/bin/clang++"
+      ],
+      "returncode": 0,
+      "seconds": 1.2281167149999987,
+      "log": "clang-fft-codelets.log"
+    },
+    {
+      "name": "clang-generic-fft",
+      "command": [
+        "/usr/local/bin/python",
+        "/src/tools/verify_generic_fft.py",
+        "--compiler",
+        "/usr/bin/clang++"
+      ],
+      "returncode": 0,
+      "seconds": 2.2295383480000055,
+      "log": "clang-generic-fft.log"
+    }
+  ],
+  "builds": [
+    {
+      "compiler": "g++",
+      "binary": "/out/build-gcc/dfttestvk.so",
+      "sha256": "b52e04dc7d65c63a24415b6c4826ab98cfb431719fd88ef585afbcc9c1dedacc",
+      "bytes": 1053936,
+      "file": "/out/build-gcc/dfttestvk.so: ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamically linked, BuildID[sha1]=c2c6bd7b3d2b82e9fdcb35ea2dbaac85fca1ffb8, not stripped",
+      "registration": {
+        "functions": {
+          "DFTTestGPU": {
+            "arguments": "clip:vnode:gpu;ftype:int:opt;sigma:float:opt;sigma2:float:opt;pmin:float:opt;pmax:float:opt;sbsize:int:opt;smode:int:opt;sosize:int:opt;tbsize:int:opt;tmode:int:opt;tosize:int:opt;swin:int:opt;twin:int:opt;sbeta:float:opt;tbeta:float:opt;zmean:int:opt;f0beta:float:opt;slocation:float[]:opt;ssx:float[]:opt;ssy:float[]:opt;sst:float[]:opt;ssystem:int:opt;planes:int[]:opt;cache:int:opt;cache_frames:int:opt;cache_mb:int:opt;",
+            "returns": "clip:vnode:gpu;",
+            "callable_pointer_present": true
+          },
+          "DFTTest": {
+            "arguments": "clip:vnode;ftype:int:opt;sigma:float:opt;sigma2:float:opt;pmin:float:opt;pmax:float:opt;sbsize:int:opt;smode:int:opt;sosize:int:opt;tbsize:int:opt;tmode:int:opt;tosize:int:opt;swin:int:opt;twin:int:opt;sbeta:float:opt;tbeta:float:opt;zmean:int:opt;f0beta:float:opt;slocation:float[]:opt;ssx:float[]:opt;ssy:float[]:opt;sst:float[]:opt;ssystem:int:opt;planes:int[]:opt;cache:int:opt;cache_frames:int:opt;cache_mb:int:opt;",
+            "returns": "clip:vnode;",
+            "callable_pointer_present": true
+          }
+        },
+        "identifier": "com.ryougikukoc.dfttestvk",
+        "namespace": "dfttestvk",
+        "name": "DFTTest Vulkan",
+        "plugin_version": 1,
+        "api_version": 262147,
+        "flags": 0,
+        "passed": true
+      },
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.11",
+        "CXXABI_1.3.13",
+        "CXXABI_1.3.15",
+        "CXXABI_1.3.3",
+        "CXXABI_1.3.9",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.11",
+        "GLIBCXX_3.4.14",
+        "GLIBCXX_3.4.15",
+        "GLIBCXX_3.4.18",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.26",
+        "GLIBCXX_3.4.29",
+        "GLIBCXX_3.4.31",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.14",
+        "GLIBC_2.2.5",
+        "GLIBC_2.3",
+        "GLIBC_2.32",
+        "GLIBC_2.34",
+        "GLIBC_2.38"
+      ]
+    },
+    {
+      "compiler": "clang++",
+      "binary": "/out/build-clang/dfttestvk.so",
+      "sha256": "d9b864c799551e2b7f31f424f984a0d3108cf4d7eff47b7ea08150d8e8423708",
+      "bytes": 1074520,
+      "file": "/out/build-clang/dfttestvk.so: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, BuildID[sha1]=6463057b7da4d5dd215e1d94284506c471dcf92a, not stripped",
+      "registration": {
+        "functions": {
+          "DFTTestGPU": {
+            "arguments": "clip:vnode:gpu;ftype:int:opt;sigma:float:opt;sigma2:float:opt;pmin:float:opt;pmax:float:opt;sbsize:int:opt;smode:int:opt;sosize:int:opt;tbsize:int:opt;tmode:int:opt;tosize:int:opt;swin:int:opt;twin:int:opt;sbeta:float:opt;tbeta:float:opt;zmean:int:opt;f0beta:float:opt;slocation:float[]:opt;ssx:float[]:opt;ssy:float[]:opt;sst:float[]:opt;ssystem:int:opt;planes:int[]:opt;cache:int:opt;cache_frames:int:opt;cache_mb:int:opt;",
+            "returns": "clip:vnode:gpu;",
+            "callable_pointer_present": true
+          },
+          "DFTTest": {
+            "arguments": "clip:vnode;ftype:int:opt;sigma:float:opt;sigma2:float:opt;pmin:float:opt;pmax:float:opt;sbsize:int:opt;smode:int:opt;sosize:int:opt;tbsize:int:opt;tmode:int:opt;tosize:int:opt;swin:int:opt;twin:int:opt;sbeta:float:opt;tbeta:float:opt;zmean:int:opt;f0beta:float:opt;slocation:float[]:opt;ssx:float[]:opt;ssy:float[]:opt;sst:float[]:opt;ssystem:int:opt;planes:int[]:opt;cache:int:opt;cache_frames:int:opt;cache_mb:int:opt;",
+            "returns": "clip:vnode;",
+            "callable_pointer_present": true
+          }
+        },
+        "identifier": "com.ryougikukoc.dfttestvk",
+        "namespace": "dfttestvk",
+        "name": "DFTTest Vulkan",
+        "plugin_version": 1,
+        "api_version": 262147,
+        "flags": 0,
+        "passed": true
+      },
+      "version_requirements": [
+        "CXXABI_1.3",
+        "CXXABI_1.3.11",
+        "CXXABI_1.3.13",
+        "CXXABI_1.3.3",
+        "CXXABI_1.3.9",
+        "GLIBCXX_3.4",
+        "GLIBCXX_3.4.11",
+        "GLIBCXX_3.4.14",
+        "GLIBCXX_3.4.15",
+        "GLIBCXX_3.4.18",
+        "GLIBCXX_3.4.20",
+        "GLIBCXX_3.4.21",
+        "GLIBCXX_3.4.26",
+        "GLIBCXX_3.4.29",
+        "GLIBCXX_3.4.31",
+        "GLIBCXX_3.4.9",
+        "GLIBC_2.14",
+        "GLIBC_2.2.5",
+        "GLIBC_2.3",
+        "GLIBC_2.32",
+        "GLIBC_2.34",
+        "GLIBC_2.38"
+      ]
+    }
+  ],
+  "gpu_execution": false,
+  "scope": "Linux native compilation, ELF dependency/loading and registration, CPU FFT verification",
+  "passed": true,
+  "seconds": 15.091722851999975
+}

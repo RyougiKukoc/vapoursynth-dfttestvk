@@ -1,0 +1,295 @@
+{
+  "reference": "matched prior Vulkan schedule",
+  "budget_native_integer_codes": 1,
+  "all_passed": true,
+  "rows": [
+    {
+      "format": "gray16",
+      "repeat": 0,
+      "sample": "f16_p0",
+      "max_native": 1.0,
+      "rms_native": 0.0017010345435994293,
+      "different": 6
+    },
+    {
+      "format": "gray16",
+      "repeat": 0,
+      "sample": "f1040_p0",
+      "max_native": 1.0,
+      "rms_native": 0.002196026152894708,
+      "different": 10
+    },
+    {
+      "format": "gray16",
+      "repeat": 0,
+      "sample": "f2063_p0",
+      "max_native": 1.0,
+      "rms_native": 0.00286326779556782,
+      "different": 17
+    },
+    {
+      "format": "gray16",
+      "repeat": 1,
+      "sample": "f16_p0",
+      "max_native": 1.0,
+      "rms_native": 0.0017010345435994293,
+      "different": 6
+    },
+    {
+      "format": "gray16",
+      "repeat": 1,
+      "sample": "f1040_p0",
+      "max_native": 1.0,
+      "rms_native": 0.002196026152894708,
+      "different": 10
+    },
+    {
+      "format": "gray16",
+      "repeat": 1,
+      "sample": "f2063_p0",
+      "max_native": 1.0,
+      "rms_native": 0.00286326779556782,
+      "different": 17
+    },
+    {
+      "format": "gray16",
+      "repeat": 2,
+      "sample": "f16_p0",
+      "max_native": 1.0,
+      "rms_native": 0.0017010345435994293,
+      "different": 6
+    },
+    {
+      "format": "gray16",
+      "repeat": 2,
+      "sample": "f1040_p0",
+      "max_native": 1.0,
+      "rms_native": 0.002196026152894708,
+      "different": 10
+    },
+    {
+      "format": "gray16",
+      "repeat": 2,
+      "sample": "f2063_p0",
+      "max_native": 1.0,
+      "rms_native": 0.00286326779556782,
+      "different": 17
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 0,
+      "sample": "f16_p0",
+      "max_native": 1.0,
+      "rms_native": 0.0017010345435994293,
+      "different": 6
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 0,
+      "sample": "f16_p1",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 0,
+      "sample": "f16_p2",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 0,
+      "sample": "f1040_p0",
+      "max_native": 1.0,
+      "rms_native": 0.002196026152894708,
+      "different": 10
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 0,
+      "sample": "f1040_p1",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 0,
+      "sample": "f1040_p2",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 0,
+      "sample": "f2063_p0",
+      "max_native": 1.0,
+      "rms_native": 0.00286326779556782,
+      "different": 17
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 0,
+      "sample": "f2063_p1",
+      "max_native": 1.0,
+      "rms_native": 0.0019641855032959655,
+      "different": 2
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 0,
+      "sample": "f2063_p2",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 1,
+      "sample": "f16_p0",
+      "max_native": 1.0,
+      "rms_native": 0.0017010345435994293,
+      "different": 6
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 1,
+      "sample": "f16_p1",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 1,
+      "sample": "f16_p2",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 1,
+      "sample": "f1040_p0",
+      "max_native": 1.0,
+      "rms_native": 0.002196026152894708,
+      "different": 10
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 1,
+      "sample": "f1040_p1",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 1,
+      "sample": "f1040_p2",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 1,
+      "sample": "f2063_p0",
+      "max_native": 1.0,
+      "rms_native": 0.00286326779556782,
+      "different": 17
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 1,
+      "sample": "f2063_p1",
+      "max_native": 1.0,
+      "rms_native": 0.0019641855032959655,
+      "different": 2
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 1,
+      "sample": "f2063_p2",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 2,
+      "sample": "f16_p0",
+      "max_native": 1.0,
+      "rms_native": 0.0017010345435994293,
+      "different": 6
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 2,
+      "sample": "f16_p1",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 2,
+      "sample": "f16_p2",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 2,
+      "sample": "f1040_p0",
+      "max_native": 1.0,
+      "rms_native": 0.002196026152894708,
+      "different": 10
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 2,
+      "sample": "f1040_p1",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 2,
+      "sample": "f1040_p2",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 2,
+      "sample": "f2063_p0",
+      "max_native": 1.0,
+      "rms_native": 0.00286326779556782,
+      "different": 17
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 2,
+      "sample": "f2063_p1",
+      "max_native": 1.0,
+      "rms_native": 0.0019641855032959655,
+      "different": 2
+    },
+    {
+      "format": "yuv420p16",
+      "repeat": 2,
+      "sample": "f2063_p2",
+      "max_native": 0.0,
+      "rms_native": 0.0,
+      "different": 0
+    }
+  ]
+}

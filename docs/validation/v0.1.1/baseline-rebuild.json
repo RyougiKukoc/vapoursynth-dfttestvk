@@ -1,0 +1,78 @@
+{
+  "files": [
+    {
+      "path": "build\\r2-study\\baseline.dll",
+      "sha256": "f51789ed92aad8aa793e55d7d8f6cf5a65327305de7ff875675c2be558e66c26",
+      "sections": {
+        ".text": "695de75cd73faec37d993cd6402bada9d86d840eae23c008cab6099208a27d8a",
+        ".data": "b0d41ed97c1e288868b18b8f183940f0b730834dba4372b8678dbddb7f264a00",
+        ".rdata": "108d7ea6130cda52161262dc0662dc557a0319876a92479ff64577274306d8e7",
+        "/4": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+        ".pdata": "f5a722e69f8cea2b64f984090f78f728d0a3c282393edc78e7201d37d1ce23d1",
+        ".xdata": "d175a9439cd68e4e3c308634455e9fdf8c3fdb4c8458b623c3534be1a78874fc",
+        ".bss": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        ".edata": "e69efaa0df8f97532e72445b9919cb0e352c661cf31891b963b158400e5c0db4",
+        ".idata": "ce70a1ed1874231e4c53745a86587bdfe7f52c894b05ad9f03f3176f4f2b76f5",
+        ".tls": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+        ".reloc": "fa1e40bf0bfcbd4576c346d2b4d276c31b3da4efa4f14df6edf30668d5c6a93b",
+        "/14": "cc4809765664031d7c9327fdfb2c28f679be93b7ca094badb4323783d6b7cca7",
+        "/29": "721a7e2be12e02aff0d4f850a37d6ae9da0db82aafdff0a403de0f1a7ec980a8",
+        "/41": "15776aafc6a4ebd2c8ddc458a8776637b09932450cedfa633ad2e706ce42a6f7",
+        "/55": "342607039b8172cd09eba932cd4bb3e799437ecce42a0e4b37faabf13fa0790d",
+        "/67": "c1adff21cbc03c4755875a328f5182e970df43eb8ceaacb94cf806adf7ceb58c",
+        "/80": "961341aedab26395a4daaa2f9dcf457589cbb7aec1a4079354837555e2103fb3",
+        "/91": "43ee02196a31d37c7a7e06f8772a752229319ca0fb9c22cc00b1e5ba18a95eba",
+        "/107": "6814c0a494508d748b657e0412d5651d95f764092642bc831366380ada716027",
+        "/123": "3c02c5f481d709db91d4c2c5890014986366d631679813b58420f3edc5987b15"
+      }
+    },
+    {
+      "path": "D:\\WorkSpace-bm3d\\holywu-vulkan-study\\r2-research\\dft-baseline-build\\dfttestvk.dll",
+      "sha256": "f51789ed92aad8aa793e55d7d8f6cf5a65327305de7ff875675c2be558e66c26",
+      "sections": {
+        ".text": "695de75cd73faec37d993cd6402bada9d86d840eae23c008cab6099208a27d8a",
+        ".data": "b0d41ed97c1e288868b18b8f183940f0b730834dba4372b8678dbddb7f264a00",
+        ".rdata": "108d7ea6130cda52161262dc0662dc557a0319876a92479ff64577274306d8e7",
+        "/4": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+        ".pdata": "f5a722e69f8cea2b64f984090f78f728d0a3c282393edc78e7201d37d1ce23d1",
+        ".xdata": "d175a9439cd68e4e3c308634455e9fdf8c3fdb4c8458b623c3534be1a78874fc",
+        ".bss": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        ".edata": "e69efaa0df8f97532e72445b9919cb0e352c661cf31891b963b158400e5c0db4",
+        ".idata": "ce70a1ed1874231e4c53745a86587bdfe7f52c894b05ad9f03f3176f4f2b76f5",
+        ".tls": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+        ".reloc": "fa1e40bf0bfcbd4576c346d2b4d276c31b3da4efa4f14df6edf30668d5c6a93b",
+        "/14": "cc4809765664031d7c9327fdfb2c28f679be93b7ca094badb4323783d6b7cca7",
+        "/29": "721a7e2be12e02aff0d4f850a37d6ae9da0db82aafdff0a403de0f1a7ec980a8",
+        "/41": "15776aafc6a4ebd2c8ddc458a8776637b09932450cedfa633ad2e706ce42a6f7",
+        "/55": "342607039b8172cd09eba932cd4bb3e799437ecce42a0e4b37faabf13fa0790d",
+        "/67": "c1adff21cbc03c4755875a328f5182e970df43eb8ceaacb94cf806adf7ceb58c",
+        "/80": "961341aedab26395a4daaa2f9dcf457589cbb7aec1a4079354837555e2103fb3",
+        "/91": "43ee02196a31d37c7a7e06f8772a752229319ca0fb9c22cc00b1e5ba18a95eba",
+        "/107": "6814c0a494508d748b657e0412d5651d95f764092642bc831366380ada716027",
+        "/123": "3c02c5f481d709db91d4c2c5890014986366d631679813b58420f3edc5987b15"
+      }
+    }
+  ],
+  "matching_sections": [
+    ".text",
+    ".data",
+    ".rdata",
+    "/4",
+    ".pdata",
+    ".xdata",
+    ".bss",
+    ".edata",
+    ".idata",
+    ".tls",
+    ".reloc",
+    "/14",
+    "/29",
+    "/41",
+    "/55",
+    "/67",
+    "/80",
+    "/91",
+    "/107",
+    "/123"
+  ]
+}

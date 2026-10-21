@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(dfttestvk VERSION 0.1.0 LANGUAGES CXX)
+project(dfttestvk VERSION 0.1.1 LANGUAGES CXX)
 set(VAPOURSYNTH_INCLUDE_DIR "" CACHE PATH "VapourSynth R81 headers")
 set(VULKAN_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/vulkan-headers/include" CACHE PATH "Vulkan-Headers include directory")
 if(NOT VAPOURSYNTH_INCLUDE_DIR)

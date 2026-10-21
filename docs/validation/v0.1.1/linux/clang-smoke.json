@@ -1,0 +1,704 @@
+{
+  "backend": "vk",
+  "against": "oracle",
+  "suite": "smoke",
+  "float_atol": 2e-05,
+  "int_atol": 1.0,
+  "half_ulps": 1,
+  "cache": null,
+  "seed": 20261012,
+  "seconds": 1.7291356169999972,
+  "environment": {
+    "plugins": [
+      {
+        "namespace": "dfttestvk",
+        "path": "/out/build-clang/dfttestvk.so",
+        "sha256": "d9b864c799551e2b7f31f424f984a0d3108cf4d7eff47b7ea08150d8e8423708",
+        "functions": {
+          "DFTTest": "clip:vnode;ftype:int:opt;sigma:float:opt;sigma2:float:opt;pmin:float:opt;pmax:float:opt;sbsize:int:opt;smode:int:opt;sosize:int:opt;tbsize:int:opt;tmode:int:opt;tosize:int:opt;swin:int:opt;twin:int:opt;sbeta:float:opt;tbeta:float:opt;zmean:int:opt;f0beta:float:opt;slocation:float[]:opt;ssx:float[]:opt;ssy:float[]:opt;sst:float[]:opt;ssystem:int:opt;planes:int[]:opt;cache:int:opt;cache_frames:int:opt;cache_mb:int:opt;",
+          "DFTTestGPU": "clip:vnode:gpu;ftype:int:opt;sigma:float:opt;sigma2:float:opt;pmin:float:opt;pmax:float:opt;sbsize:int:opt;smode:int:opt;sosize:int:opt;tbsize:int:opt;tmode:int:opt;tosize:int:opt;swin:int:opt;twin:int:opt;sbeta:float:opt;tbeta:float:opt;zmean:int:opt;f0beta:float:opt;slocation:float[]:opt;ssx:float[]:opt;ssy:float[]:opt;sst:float[]:opt;ssystem:int:opt;planes:int[]:opt;cache:int:opt;cache_frames:int:opt;cache_mb:int:opt;"
+        }
+      },
+      {
+        "namespace": "std",
+        "path": "/usr/local/lib/python3.13/site-packages/vapoursynth/libvapoursynthfilters_avx2.so",
+        "sha256": "37e9d22029b93f109948bddfc0de070294a91959f16278c56d7fddf866db677e",
+        "functions": {
+          "AddBorders": "clip:vnode:all;left:int:opt;right:int:opt;top:int:opt;bottom:int:opt;color:float[]:opt;",
+          "AssumeFPS": "clip:vnode:all;src:vnode:all:opt;fpsnum:int:opt;fpsden:int:opt;",
+          "AssumeSampleRate": "clip:anode;src:anode:opt;samplerate:int:opt;",
+          "AudioGain": "clip:anode;gain:float[];overflow_error:int:opt;",
+          "AudioLoop": "clip:anode;times:int:opt;",
+          "AudioMix": "clips:anode[];matrix:float[];channels_out:int[];overflow_error:int:opt;",
+          "AudioResample": "clip:anode;samplerate:int:opt;sampletype:int:opt;bits:int:opt;channels:int[]:opt;dither_type:data:opt;normalize:int:opt;overflow_error:int:opt;",
+          "AudioReverse": "clip:anode;",
+          "AudioSplice": "clips:anode[];",
+          "AudioTrim": "clip:anode;first:int:opt;last:int:opt;length:int:opt;",
+          "AverageFrames": "clips:vnode[]:all;weights:float[];scale:float:opt;scenechange:int:opt;planes:int[]:opt;",
+          "Binarize": "clip:vnode:all;threshold:float[]:opt;v0:float[]:opt;v1:float[]:opt;planes:int[]:opt;",
+          "BinarizeMask": "clip:vnode:all;threshold:float[]:opt;v0:float[]:opt;v1:float[]:opt;planes:int[]:opt;",
+          "BlankAudio": "clip:anode:opt;channels:int[]:opt;bits:int:opt;sampletype:int:opt;samplerate:int:opt;length:int:opt;keep:int:opt;waveform:data:opt;amplitude:float:opt;frequency:float:opt;",
+          "BlankClip": "clip:vnode:all:opt;width:int:opt;height:int:opt;format:int:opt;length:int:opt;fpsnum:int:opt;fpsden:int:opt;color:float[]:opt;keep:int:opt;varsize:int:opt;varformat:int:opt;gpu:int:opt;",
+          "BoxBlur": "clip:vnode:all;planes:int[]:opt;hradius:int:opt;hpasses:int:opt;vradius:int:opt;vpasses:int:opt;",
+          "ClipToProp": "clip:vnode:all;mclip:vnode:all;prop:data:opt;",
+          "Convolution": "clip:vnode:all;matrix:float[];bias:float:opt;divisor:float:opt;planes:int[]:opt;saturate:int:opt;mode:data:opt;",
+          "CopyFrameProps": "clip:vnode:all;prop_src:vnode:all;props:data[]:opt;",
+          "Crop": "clip:vnode:all;left:int:opt;right:int:opt;top:int:opt;bottom:int:opt;",
+          "CropAbs": "clip:vnode:all;width:int;height:int;left:int:opt;top:int:opt;x:int:opt;y:int:opt;",
+          "CropRel": "clip:vnode:all;left:int:opt;right:int:opt;top:int:opt;bottom:int:opt;",
+          "Deflate": "clip:vnode:all;planes:int[]:opt;threshold:float:opt;",
+          "DeleteFrames": "clip:vnode:all;frames:int[];",
+          "DoubleWeave": "clip:vnode:all;tff:int:opt;",
+          "DuplicateFrames": "clip:vnode:all;frames:int[];",
+          "Expr": "clips:vnode[]:all;expr:data[];format:int:opt;",
+          "FlipHorizontal": "clip:vnode:all;",
+          "FlipVertical": "clip:vnode:all;",
+          "FrameEval": "clip:vnode:all;eval:func;prop_src:vnode[]:all:opt;clip_src:vnode[]:all:opt;",
+          "FreezeFrames": "clip:vnode:all;first:int[]:empty;last:int[]:empty;replacement:int[]:empty;",
+          "GPUDownload": "clip:vnode:all;",
+          "GPUUpload": "clip:vnode:all;",
+          "Inflate": "clip:vnode:all;planes:int[]:opt;threshold:float:opt;",
+          "Interleave": "clips:vnode[]:all;extend:int:opt;mismatch:int:opt;modify_duration:int:opt;",
+          "Invert": "clip:vnode:all;planes:int[]:opt;",
+          "InvertMask": "clip:vnode:all;planes:int[]:opt;",
+          "Levels": "clip:vnode:all;min_in:float[]:opt;max_in:float[]:opt;gamma:float[]:opt;min_out:float[]:opt;max_out:float[]:opt;planes:int[]:opt;",
+          "Limiter": "clip:vnode:all;min:float[]:opt;max:float[]:opt;planes:int[]:opt;",
+          "LoadAllPlugins": "path:data;",
+          "LoadPlugin": "path:data;altsearchpath:int:opt;forcens:data:opt;forceid:data:opt;",
+          "Loop": "clip:vnode:all;times:int:opt;",
+          "Lut": "clip:vnode:all;planes:int[]:opt;lut:int[]:opt;lutf:float[]:opt;function:func:opt;bits:int:opt;floatout:int:opt;",
+          "Lut2": "clipa:vnode:all;clipb:vnode:all;planes:int[]:opt;lut:int[]:opt;lutf:float[]:opt;function:func:opt;bits:int:opt;floatout:int:opt;",
+          "MakeDiff": "clipa:vnode:all;clipb:vnode:all;planes:int[]:opt;",
+          "MakeFullDiff": "clipa:vnode:all;clipb:vnode:all;",
+          "MaskedMerge": "clipa:vnode:all;clipb:vnode:all;mask:vnode:all;planes:int[]:opt;first_plane:int:opt;premultiplied:int:opt;",
+          "Maximum": "clip:vnode:all;planes:int[]:opt;threshold:float:opt;coordinates:int[]:opt;",
+          "Median": "clip:vnode:all;planes:int[]:opt;",
+          "Merge": "clipa:vnode:all;clipb:vnode:all;weight:float[]:opt;",
+          "MergeDiff": "clipa:vnode:all;clipb:vnode:all;planes:int[]:opt;",
+          "MergeFullDiff": "clipa:vnode:all;clipb:vnode:all;",
+          "Minimum": "clip:vnode:all;planes:int[]:opt;threshold:float:opt;coordinates:int[]:opt;",
+          "ModifyFrame": "clip:vnode:all;clips:vnode[]:all;selector:func;",
+          "PEMVerifier": "clip:vnode;upper:float[]:opt;lower:float[]:opt;",
+          "PlaneStats": "clipa:vnode:all;clipb:vnode:all:opt;plane:int:opt;prop:data:opt;",
+          "PreMultiply": "clip:vnode:all;alpha:vnode:all;",
+          "Prewitt": "clip:vnode:all;planes:int[]:opt;scale:float:opt;",
+          "PropToClip": "clip:vnode:all;prop:data:opt;index:int:opt;",
+          "RemoveFrameProps": "clip:vnode:all;props:data[]:opt;",
+          "Reverse": "clip:vnode:all;",
+          "SelectEvery": "clip:vnode:all;cycle:int;offsets:int[];modify_duration:int:opt;",
+          "SeparateFields": "clip:vnode:all;tff:int:opt;modify_duration:int:opt;",
+          "SetAudioCache": "clip:anode;mode:int:opt;fixedsize:int:opt;maxsize:int:opt;maxhistory:int:opt;",
+          "SetFieldBased": "clip:vnode:all;value:int;",
+          "SetFrameProp": "clip:vnode:all;prop:data;intval:int[]:opt;floatval:float[]:opt;data:data[]:opt;",
+          "SetFrameProps": "clip:vnode:all;any",
+          "SetMaxCPU": "cpu:data;",
+          "SetVideoCache": "clip:vnode:all;mode:int:opt;fixedsize:int:opt;maxsize:int:opt;maxhistory:int:opt;",
+          "ShuffleChannels": "clips:anode[];channels_in:int[];channels_out:int[];",
+          "ShufflePlanes": "clips:vnode[]:all;planes:int[];colorfamily:int;prop_src:vnode:all:opt;",
+          "Sobel": "clip:vnode:all;planes:int[]:opt;scale:float:opt;",
+          "Splice": "clips:vnode[]:all;mismatch:int:opt;",
+          "SplitChannels": "clip:anode;",
+          "SplitPlanes": "clip:vnode:all;",
+          "StackHorizontal": "clips:vnode[]:all;",
+          "StackVertical": "clips:vnode[]:all;",
+          "Transpose": "clip:vnode:all;",
+          "Trim": "clip:vnode:all;first:int:opt;last:int:opt;length:int:opt;",
+          "Turn180": "clip:vnode:all;",
+          "Turn270": "clip:vnode:all;",
+          "Turn90": "clip:vnode:all;"
+        }
+      }
+    ],
+    "core": "VapourSynth Video Processing Library\nCopyright (c) 2012-2026 Fredrik Mellbin\n\tCore R81\n\tAPI R4.3\n\tOptions: -\n\tNumber of Threads: 4\n\tMax Cache Size: 16024\n",
+    "numpy": "2.5.4",
+    "diagnostic_environment": {},
+    "validation_environment": {}
+  },
+  "cases": [
+    {
+      "case": {
+        "name": "gray8-constant",
+        "format": "gray8",
+        "width": 48,
+        "height": 40,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": 1.0,
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "gray9-constant",
+        "format": "gray9",
+        "width": 48,
+        "height": 40,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": 1.0,
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "gray10-constant",
+        "format": "gray10",
+        "width": 48,
+        "height": 40,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": 1.0,
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "gray12-constant",
+        "format": "gray12",
+        "width": 48,
+        "height": 40,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": 1.0,
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "gray14-constant",
+        "format": "gray14",
+        "width": 48,
+        "height": 40,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": 1.0,
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "gray16-constant",
+        "format": "gray16",
+        "width": 48,
+        "height": 40,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": 1.0,
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "grays-constant",
+        "format": "grays",
+        "width": 48,
+        "height": 40,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 2.7877519926234643e-08,
+          "max": 5.960464477539063e-08,
+          "p99": 5.960464477539063e-08,
+          "different_fraction": 0.725,
+          "max_8bit": 1.519918441772461e-05,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": 2e-05,
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 1.971238338250362e-08,
+              "max": 2.9802322387695312e-08,
+              "p99": 2.9802322387695312e-08,
+              "different_fraction": 0.4375,
+              "max_8bit": 7.599592208862305e-06
+            },
+            {
+              "frame": 1,
+              "rms": 3.0719530773294423e-08,
+              "max": 5.960464477539063e-08,
+              "p99": 5.960464477539063e-08,
+              "different_fraction": 0.875,
+              "max_8bit": 1.519918441772461e-05
+            },
+            {
+              "frame": 2,
+              "rms": 2.7877519926234643e-08,
+              "max": 2.9802322387695312e-08,
+              "p99": 2.9802322387695312e-08,
+              "different_fraction": 0.875,
+              "max_8bit": 7.599592208862305e-06
+            },
+            {
+              "frame": 3,
+              "rms": 3.247632789269592e-08,
+              "max": 5.960464477539063e-08,
+              "p99": 5.960464477539063e-08,
+              "different_fraction": 0.625,
+              "max_8bit": 1.519918441772461e-05
+            },
+            {
+              "frame": 4,
+              "rms": 2.6863450374185958e-08,
+              "max": 2.9802322387695312e-08,
+              "p99": 2.9802322387695312e-08,
+              "different_fraction": 0.8125,
+              "max_8bit": 7.599592208862305e-06
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "grays-impulse",
+        "format": "grays",
+        "width": 48,
+        "height": 40,
+        "length": 5,
+        "pattern": "impulse",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 1.2556171865196766e-08,
+          "max": 1.1920928955078125e-07,
+          "p99": 2.9802322387695312e-08,
+          "different_fraction": 0.47125,
+          "max_8bit": 3.039836883544922e-05,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": 2e-05,
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 1.0860994262332657e-08,
+              "max": 5.960464477539063e-08,
+              "p99": 2.9802322387695312e-08,
+              "different_fraction": 0.40989583333333335,
+              "max_8bit": 1.519918441772461e-05
+            },
+            {
+              "frame": 1,
+              "rms": 1.2457926271416858e-08,
+              "max": 5.960464477539063e-08,
+              "p99": 2.9802322387695312e-08,
+              "different_fraction": 0.471875,
+              "max_8bit": 1.519918441772461e-05
+            },
+            {
+              "frame": 2,
+              "rms": 1.3817931487352966e-08,
+              "max": 1.1920928955078125e-07,
+              "p99": 2.9802322387695312e-08,
+              "different_fraction": 0.5130208333333334,
+              "max_8bit": 3.039836883544922e-05
+            },
+            {
+              "frame": 3,
+              "rms": 1.3376723311297415e-08,
+              "max": 5.960464477539063e-08,
+              "p99": 2.9802322387695312e-08,
+              "different_fraction": 0.5067708333333333,
+              "max_8bit": 1.519918441772461e-05
+            },
+            {
+              "frame": 4,
+              "rms": 1.2052144168367911e-08,
+              "max": 5.960464477539063e-08,
+              "p99": 2.9802322387695312e-08,
+              "different_fraction": 0.4546875,
+              "max_8bit": 1.519918441772461e-05
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    }
+  ],
+  "passed": true
+}

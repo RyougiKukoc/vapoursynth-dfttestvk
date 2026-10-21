@@ -1,0 +1,9 @@
+N1 T1 forward=0 inverse=0 temporal=0
+N3 T3 forward=2.66560079e-07 inverse=3.37174782e-07 temporal=4.02331352e-07
+N8 T3 forward=4.76837158e-07 inverse=1.43051147e-06 temporal=2.38418579e-07
+N12 T5 forward=1.06624032e-06 inverse=3.57627869e-06 temporal=5.33120158e-07
+N15 T7 forward=1.92219204e-06 inverse=4.26496126e-06 temporal=9.61096021e-07
+N16 T1 forward=1.04095034e-06 inverse=4.76837158e-06 temporal=0
+N32 T3 forward=1.90734863e-06 inverse=1.25436272e-05 temporal=2.38418579e-07
+N63 T5 forward=7.2629673e-06 inverse=7.03395417e-05 temporal=2.16964182e-07
+N64 T7 forward=3.34264632e-06 inverse=2.34682648e-05 temporal=6.66400183e-07

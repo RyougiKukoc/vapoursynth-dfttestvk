@@ -1,0 +1,14 @@
+{
+  "measured_sources_sha256": {
+    "src\\cached_shaders.h": "bffaede975459e64b4f2bec52e1b59f5b1157eed00a667030beb1d311847201b",
+    "src\\dfttestvk.cpp": "8bbb0f6c3b83710f59c6087dfebd226a02e1e168d19c6755eb1bdc6c44612b4f",
+    "src\\generic_shaders.h": "2412af4821bd6b7d7aeb1533ff2507f79506f0fc6fdb37a5e77cc4d1971ccb87",
+    "src\\shaders.h": "1aa97881e97d18d72c9b45c5b3821e19dfcb7c3551fcf017eb5bbeb497a9cd35"
+  },
+  "study_scripts_sha256": {
+    "bench_dft.py": "7213515e62109f17ecb37d5a48c8af471aa3103c15be992037dcd0423f0be350",
+    "bench_krig.py": "96bba5a9d984f14f3b0865fe5ffd53215b733f1db70740bd917ccbe430cb414d",
+    "run_isolated.py": "34425e7c70755aa6f04791d02dd4ed735afee78e56ec5c530bc4972e2f568ef0"
+  },
+  "scope": "Windows RTX 3090 Ti / driver 617.42; desktop active; measurements do not establish other-device throughput"
+}

@@ -1,5 +1,7 @@
 # Numerical validation and evidence status
 
+The 0.1.1 frequency-row optimization has its own [Windows/Linux evidence and matched performance report](r2-optimization.md). The original results below remain tied to the 0.1.0 binaries.
+
 Evidence below was inspected on 2026-10-12 with VapourSynth R81, Windows,
 NumPy and an NVIDIA RTX 3090 Ti. The final candidate completed all numerical,
 cache/request and diagnostic validation checks below. Performance repeats are

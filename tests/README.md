@@ -5,6 +5,16 @@ backends explicitly, record loaded native paths and SHA256, and refuse to
 overwrite evidence. Vulkan loads `build/dfttestvk.dll` by default; `--dll`
 selects another build. CPU-baseline checks can run during GPU development.
 
+When an installed wheel would autoload another copy, run development checks
+in a process with autoload disabled:
+
+```console
+python tests/run_isolated.py tests/correctness.py --backend vk --against oracle --suite smoke --output tests/results/local-smoke.json
+```
+
+`run_isolated.py` creates and destroys a separate VapourSynth environment for
+that process; tests still explicitly select their native library.
+
 ```
 python tests/correctness.py --backend cpu --suite smoke --output tests/results/cpu-smoke.json
 python tests/correctness.py --backend cpu --case "^(?!window)" --output tests/results/cpu-twin7.json

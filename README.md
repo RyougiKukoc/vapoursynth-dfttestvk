@@ -1,5 +1,23 @@
 # DFTTestVK
 
+## Recommended installation: api4-wheels
+
+Install the Windows or Linux x86-64 package into the Python environment used by
+VapourSynth:
+
+```console
+python -m pip install --extra-index-url https://aliceteaparty.github.io/vapoursynth-api4-wheels/simple/ vapoursynth-dfttestvk
+```
+
+[api4-wheels](https://github.com/AliceTeaParty/vapoursynth-api4-wheels) provides
+the native plugin, autoload manifest and licenses. Use Python 3.12 or newer,
+VapourSynth R81 and a Vulkan 1.4 device/driver. Linux wheels require glibc 2.28
+or newer. After installation, `vs.core.dfttestvk` is available automatically.
+The central repository maintains wheel packaging and publication; this repository
+maintains the native source and validation tools.
+
+## Usage
+
 DFTTestVK implements DFTTest frequency-domain denoising on VapourSynth's
 Vulkan device. It exposes a familiar CPU-clip entry point and a GPU-resident
 entry point for graphs that keep frames on the device. CUDA is not required.
@@ -7,7 +25,6 @@ entry point for graphs that keep frames on the device. CUDA is not required.
 ```python
 import vapoursynth as vs
 core = vs.core
-core.std.LoadPlugin(r"build/dfttestvk.dll")
 
 # Upload, denoise and download are composed by this entry point.
 output = core.dfttestvk.DFTTest(clip, sigma=8, sbsize=16, sosize=12, tbsize=3)
@@ -160,6 +177,15 @@ transfers included:
 | DFTTest2 cuFFT | 102.95 |
 | DFTTest2 NVRTC | 503.00 |
 | DFTTestVK | 527.24 |
+
+Version 0.1.1 consumes cached frequency rows one at a time for `tbsize=3`,
+shortening the lifetime of private coefficient arrays. A new matched A/B on
+RTX 3090 Ti measured 522.63 → 556.36 fps for Gray16 (+6.5%) and
+306.30 → 346.42 fps for all YUV420P16 planes (+13.1%), including complete CPU
+outputs and transfers. Other temporal sizes retain their earlier schedule.
+See [the optimization report](docs/r2-optimization.md) for raw repetitions,
+numerical checks and the rejected T=7 experiment. The earlier comparison table
+above describes the original 0.1.0 measurement set.
 
 The completed T=7 comparisons showed about 29% higher median throughput for
 Gray16 and 38% for all YUV420P16 planes. NVRTC was faster at T=1 in both

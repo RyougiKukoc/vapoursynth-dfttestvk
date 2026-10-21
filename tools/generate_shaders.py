@@ -467,7 +467,7 @@ def cached_mains() -> tuple[str,str]:
     }
 }
 '''
-    finish = preamble + r'''
+    original_finish = preamble + r'''
     if (lane <= N/2) {
         for (int t=0; t<T; ++t) {
             for (int y=0; y<N; ++y) {
@@ -476,6 +476,33 @@ def cached_mains() -> tuple[str,str]:
         }
     }
 ''' + direct[temporal_start:]
+    # Consume one frequency row at a time instead of retaining all T*N complex
+    # coefficients across both loops. The DC transform for mean removal is
+    # cheap to repeat in lane zero and avoids another shared spectrum buffer.
+    finish = preamble.replace('    vec2 spectrum[T * N];\n', '') + r'''
+#if ZMEAN
+    if (lane == 0) {
+        vec2 dc[T];
+        for (int t=0; t<T; ++t) {
+            dc[t] = validBlock ? readCachedSpectrum(t,blockId,0,0)*temporalFactors[t] : vec2(0.0);
+        }
+        dftTemporal(dc);
+        blockMean[tile] = dc[0].x / windowSpectrum(0,0).x;
+    }
+    TILE_BARRIER();
+#endif
+''' + direct[direct.index('    vec2 column[N];', temporal_start):]
+    finish = finish.replace('''            vec2 temporal[T];
+            for (int t=0; t<T; ++t) {''', '''            vec2 temporal[T];
+            for (int t=0; t<T; ++t) {
+                temporal[t] = validBlock ? readCachedSpectrum(t,blockId,y,lane)*temporalFactors[t] : vec2(0.0);
+            }
+            dftTemporal(temporal);
+            for (int t=0; t<T; ++t) {''')
+    finish = finish.replace('vec2 v = spectrum[t*N+y];', 'vec2 v = temporal[t];')
+    # A/B on RTX 3090 Ti favors streaming at T=3; T=7 regressed slightly.
+    # Keep the original schedule for the other temporal sizes.
+    finish = '#if T == 3\n' + finish + '#else\n' + original_finish + '#endif\n'
     return forward,finish
 
 

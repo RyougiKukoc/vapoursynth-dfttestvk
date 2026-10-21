@@ -1,0 +1,12 @@
+{
+  "backend": "vk",
+  "format": "gray16",
+  "dll": "D:\\WorkSpace-bm3d\\vapoursynth-dfttestvk\\build\\r2-study\\baseline.dll",
+  "raw_yuv420p16": "D:\\WorkSpace-bm3d\\sample-1080p.yuv",
+  "params": {
+    "sbsize": 16,
+    "sosize": 12,
+    "tbsize": 3,
+    "twin": 7
+  }
+}

@@ -1,0 +1,2068 @@
+{
+  "backend": "vk",
+  "against": "oracle",
+  "suite": "half",
+  "float_atol": 2e-05,
+  "int_atol": 1.0,
+  "half_ulps": 1,
+  "cache": null,
+  "seed": 20261012,
+  "seconds": 6.996675299999879,
+  "environment": {
+    "plugins": [
+      {
+        "namespace": "dfttestvk",
+        "path": "D:\\WorkSpace-bm3d\\vapoursynth-dfttestvk\\build\\dfttestvk.dll",
+        "sha256": "da06bc24c445decc9979e2700b7ecc65efb87ff7111656a8bd4abe918fb7e3a4",
+        "functions": {
+          "DFTTest": "clip:vnode;ftype:int:opt;sigma:float:opt;sigma2:float:opt;pmin:float:opt;pmax:float:opt;sbsize:int:opt;smode:int:opt;sosize:int:opt;tbsize:int:opt;tmode:int:opt;tosize:int:opt;swin:int:opt;twin:int:opt;sbeta:float:opt;tbeta:float:opt;zmean:int:opt;f0beta:float:opt;slocation:float[]:opt;ssx:float[]:opt;ssy:float[]:opt;sst:float[]:opt;ssystem:int:opt;planes:int[]:opt;cache:int:opt;cache_frames:int:opt;cache_mb:int:opt;",
+          "DFTTestGPU": "clip:vnode:gpu;ftype:int:opt;sigma:float:opt;sigma2:float:opt;pmin:float:opt;pmax:float:opt;sbsize:int:opt;smode:int:opt;sosize:int:opt;tbsize:int:opt;tmode:int:opt;tosize:int:opt;swin:int:opt;twin:int:opt;sbeta:float:opt;tbeta:float:opt;zmean:int:opt;f0beta:float:opt;slocation:float[]:opt;ssx:float[]:opt;ssy:float[]:opt;sst:float[]:opt;ssystem:int:opt;planes:int[]:opt;cache:int:opt;cache_frames:int:opt;cache_mb:int:opt;"
+        }
+      },
+      {
+        "namespace": "std",
+        "path": "C:\\green\\WPy64-31470\\python\\Lib\\site-packages\\vapoursynth\\libvapoursynthfilters_avx2.dll",
+        "sha256": "026d4223e491d008e96900d39c93caa28f2e1b30de40abfcd3fbe0d7c834d81c",
+        "functions": {
+          "AddBorders": "clip:vnode:all;left:int:opt;right:int:opt;top:int:opt;bottom:int:opt;color:float[]:opt;",
+          "AssumeFPS": "clip:vnode:all;src:vnode:all:opt;fpsnum:int:opt;fpsden:int:opt;",
+          "AssumeSampleRate": "clip:anode;src:anode:opt;samplerate:int:opt;",
+          "AudioGain": "clip:anode;gain:float[];overflow_error:int:opt;",
+          "AudioLoop": "clip:anode;times:int:opt;",
+          "AudioMix": "clips:anode[];matrix:float[];channels_out:int[];overflow_error:int:opt;",
+          "AudioResample": "clip:anode;samplerate:int:opt;sampletype:int:opt;bits:int:opt;channels:int[]:opt;dither_type:data:opt;normalize:int:opt;overflow_error:int:opt;",
+          "AudioReverse": "clip:anode;",
+          "AudioSplice": "clips:anode[];",
+          "AudioTrim": "clip:anode;first:int:opt;last:int:opt;length:int:opt;",
+          "AverageFrames": "clips:vnode[]:all;weights:float[];scale:float:opt;scenechange:int:opt;planes:int[]:opt;",
+          "Binarize": "clip:vnode:all;threshold:float[]:opt;v0:float[]:opt;v1:float[]:opt;planes:int[]:opt;",
+          "BinarizeMask": "clip:vnode:all;threshold:float[]:opt;v0:float[]:opt;v1:float[]:opt;planes:int[]:opt;",
+          "BlankAudio": "clip:anode:opt;channels:int[]:opt;bits:int:opt;sampletype:int:opt;samplerate:int:opt;length:int:opt;keep:int:opt;waveform:data:opt;amplitude:float:opt;frequency:float:opt;",
+          "BlankClip": "clip:vnode:all:opt;width:int:opt;height:int:opt;format:int:opt;length:int:opt;fpsnum:int:opt;fpsden:int:opt;color:float[]:opt;keep:int:opt;varsize:int:opt;varformat:int:opt;gpu:int:opt;",
+          "BoxBlur": "clip:vnode:all;planes:int[]:opt;hradius:int:opt;hpasses:int:opt;vradius:int:opt;vpasses:int:opt;",
+          "ClipToProp": "clip:vnode:all;mclip:vnode:all;prop:data:opt;",
+          "Convolution": "clip:vnode:all;matrix:float[];bias:float:opt;divisor:float:opt;planes:int[]:opt;saturate:int:opt;mode:data:opt;",
+          "CopyFrameProps": "clip:vnode:all;prop_src:vnode:all;props:data[]:opt;",
+          "Crop": "clip:vnode:all;left:int:opt;right:int:opt;top:int:opt;bottom:int:opt;",
+          "CropAbs": "clip:vnode:all;width:int;height:int;left:int:opt;top:int:opt;x:int:opt;y:int:opt;",
+          "CropRel": "clip:vnode:all;left:int:opt;right:int:opt;top:int:opt;bottom:int:opt;",
+          "Deflate": "clip:vnode:all;planes:int[]:opt;threshold:float:opt;",
+          "DeleteFrames": "clip:vnode:all;frames:int[];",
+          "DoubleWeave": "clip:vnode:all;tff:int:opt;",
+          "DuplicateFrames": "clip:vnode:all;frames:int[];",
+          "Expr": "clips:vnode[]:all;expr:data[];format:int:opt;",
+          "FlipHorizontal": "clip:vnode:all;",
+          "FlipVertical": "clip:vnode:all;",
+          "FrameEval": "clip:vnode:all;eval:func;prop_src:vnode[]:all:opt;clip_src:vnode[]:all:opt;",
+          "FreezeFrames": "clip:vnode:all;first:int[]:empty;last:int[]:empty;replacement:int[]:empty;",
+          "GPUDownload": "clip:vnode:all;",
+          "GPUUpload": "clip:vnode:all;",
+          "Inflate": "clip:vnode:all;planes:int[]:opt;threshold:float:opt;",
+          "Interleave": "clips:vnode[]:all;extend:int:opt;mismatch:int:opt;modify_duration:int:opt;",
+          "Invert": "clip:vnode:all;planes:int[]:opt;",
+          "InvertMask": "clip:vnode:all;planes:int[]:opt;",
+          "Levels": "clip:vnode:all;min_in:float[]:opt;max_in:float[]:opt;gamma:float[]:opt;min_out:float[]:opt;max_out:float[]:opt;planes:int[]:opt;",
+          "Limiter": "clip:vnode:all;min:float[]:opt;max:float[]:opt;planes:int[]:opt;",
+          "LoadAllPlugins": "path:data;",
+          "LoadPlugin": "path:data;altsearchpath:int:opt;forcens:data:opt;forceid:data:opt;",
+          "Loop": "clip:vnode:all;times:int:opt;",
+          "Lut": "clip:vnode:all;planes:int[]:opt;lut:int[]:opt;lutf:float[]:opt;function:func:opt;bits:int:opt;floatout:int:opt;",
+          "Lut2": "clipa:vnode:all;clipb:vnode:all;planes:int[]:opt;lut:int[]:opt;lutf:float[]:opt;function:func:opt;bits:int:opt;floatout:int:opt;",
+          "MakeDiff": "clipa:vnode:all;clipb:vnode:all;planes:int[]:opt;",
+          "MakeFullDiff": "clipa:vnode:all;clipb:vnode:all;",
+          "MaskedMerge": "clipa:vnode:all;clipb:vnode:all;mask:vnode:all;planes:int[]:opt;first_plane:int:opt;premultiplied:int:opt;",
+          "Maximum": "clip:vnode:all;planes:int[]:opt;threshold:float:opt;coordinates:int[]:opt;",
+          "Median": "clip:vnode:all;planes:int[]:opt;",
+          "Merge": "clipa:vnode:all;clipb:vnode:all;weight:float[]:opt;",
+          "MergeDiff": "clipa:vnode:all;clipb:vnode:all;planes:int[]:opt;",
+          "MergeFullDiff": "clipa:vnode:all;clipb:vnode:all;",
+          "Minimum": "clip:vnode:all;planes:int[]:opt;threshold:float:opt;coordinates:int[]:opt;",
+          "ModifyFrame": "clip:vnode:all;clips:vnode[]:all;selector:func;",
+          "PEMVerifier": "clip:vnode;upper:float[]:opt;lower:float[]:opt;",
+          "PlaneStats": "clipa:vnode:all;clipb:vnode:all:opt;plane:int:opt;prop:data:opt;",
+          "PreMultiply": "clip:vnode:all;alpha:vnode:all;",
+          "Prewitt": "clip:vnode:all;planes:int[]:opt;scale:float:opt;",
+          "PropToClip": "clip:vnode:all;prop:data:opt;index:int:opt;",
+          "RemoveFrameProps": "clip:vnode:all;props:data[]:opt;",
+          "Reverse": "clip:vnode:all;",
+          "SelectEvery": "clip:vnode:all;cycle:int;offsets:int[];modify_duration:int:opt;",
+          "SeparateFields": "clip:vnode:all;tff:int:opt;modify_duration:int:opt;",
+          "SetAudioCache": "clip:anode;mode:int:opt;fixedsize:int:opt;maxsize:int:opt;maxhistory:int:opt;",
+          "SetFieldBased": "clip:vnode:all;value:int;",
+          "SetFrameProp": "clip:vnode:all;prop:data;intval:int[]:opt;floatval:float[]:opt;data:data[]:opt;",
+          "SetFrameProps": "clip:vnode:all;any",
+          "SetMaxCPU": "cpu:data;",
+          "SetVideoCache": "clip:vnode:all;mode:int:opt;fixedsize:int:opt;maxsize:int:opt;maxhistory:int:opt;",
+          "ShuffleChannels": "clips:anode[];channels_in:int[];channels_out:int[];",
+          "ShufflePlanes": "clips:vnode[]:all;planes:int[];colorfamily:int;prop_src:vnode:all:opt;",
+          "Sobel": "clip:vnode:all;planes:int[]:opt;scale:float:opt;",
+          "Splice": "clips:vnode[]:all;mismatch:int:opt;",
+          "SplitChannels": "clip:anode;",
+          "SplitPlanes": "clip:vnode:all;",
+          "StackHorizontal": "clips:vnode[]:all;",
+          "StackVertical": "clips:vnode[]:all;",
+          "Transpose": "clip:vnode:all;",
+          "Trim": "clip:vnode:all;first:int:opt;last:int:opt;length:int:opt;",
+          "Turn180": "clip:vnode:all;",
+          "Turn270": "clip:vnode:all;",
+          "Turn90": "clip:vnode:all;"
+        }
+      }
+    ],
+    "core": "VapourSynth Video Processing Library\nCopyright (c) 2012-2026 Fredrik Mellbin\n\tCore R81\n\tAPI R4.3\n\tOptions: -\n\tNumber of Threads: 4\n\tMax Cache Size: 32723\n",
+    "numpy": "2.5.3",
+    "diagnostic_environment": {},
+    "validation_environment": {}
+  },
+  "cases": [
+    {
+      "case": {
+        "name": "grayh-constant",
+        "format": "grayh",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "grayh-ramp",
+        "format": "grayh",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "ramp",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 3.7376247295885895e-06,
+          "max": 0.00048828125,
+          "p99": 0.0,
+          "different_fraction": 0.0001171875,
+          "max_8bit": 0.12451171875,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 8.357582969744355e-06,
+              "max": 0.00048828125,
+              "p99": 0.0,
+              "different_fraction": 0.0005859375,
+              "max_8bit": 0.12451171875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "grayh-noise",
+        "format": "grayh",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "noise",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 3.4962277946135253e-06,
+          "max": 0.00048828125,
+          "p99": 0.0,
+          "different_fraction": 0.0001171875,
+          "max_8bit": 0.12451171875,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 3.4119689598080286e-06,
+              "max": 0.000244140625,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 0.062255859375,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 6.823937919616057e-06,
+              "max": 0.00048828125,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 0.12451171875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 1.7059844799040143e-06,
+              "max": 0.0001220703125,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 0.0311279296875,
+              "max_half_ulps": 1
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "grayh-impulse",
+        "format": "grayh",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "impulse",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "yuv444ph-constant",
+        "format": "yuv444ph",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 1,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 2,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "yuv444ph-ramp",
+        "format": "yuv444ph",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "ramp",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 3.7376247295885895e-06,
+          "max": 0.00048828125,
+          "p99": 0.0,
+          "different_fraction": 0.0001171875,
+          "max_8bit": 0.12451171875,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 8.357582969744355e-06,
+              "max": 0.00048828125,
+              "p99": 0.0,
+              "different_fraction": 0.0005859375,
+              "max_8bit": 0.12451171875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 3.0034250573435985e-09,
+          "max": 4.76837158203125e-07,
+          "p99": 0.0,
+          "different_fraction": 7.8125e-05,
+          "max_8bit": 0.00012159347534179688,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 1,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 8.33000234328132e-10,
+              "max": 5.960464477539063e-08,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 1.519918441772461e-05,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 4,
+              "rms": 6.664001874625056e-09,
+              "max": 4.76837158203125e-07,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 0.00012159347534179688,
+              "max_half_ulps": 1
+            }
+          ]
+        },
+        {
+          "rms": 3.0034250573435985e-09,
+          "max": 4.76837158203125e-07,
+          "p99": 0.0,
+          "different_fraction": 7.8125e-05,
+          "max_8bit": 0.00012159347534179688,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 2,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 8.33000234328132e-10,
+              "max": 5.960464477539063e-08,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 1.519918441772461e-05,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 4,
+              "rms": 6.664001874625056e-09,
+              "max": 4.76837158203125e-07,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 0.00012159347534179688,
+              "max_half_ulps": 1
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "yuv444ph-noise",
+        "format": "yuv444ph",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "noise",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 5.731977450277179e-07,
+          "max": 6.103515625e-05,
+          "p99": 0.0,
+          "different_fraction": 0.0002734375,
+          "max_8bit": 0.01556396484375,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 1,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 5.331852241417415e-08,
+              "max": 3.814697265625e-06,
+              "p99": 0.0,
+              "different_fraction": 0.000390625,
+              "max_8bit": 0.000972747802734375,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 8.546582404206634e-07,
+              "max": 6.103515625e-05,
+              "p99": 0.0,
+              "different_fraction": 0.0005859375,
+              "max_8bit": 0.01556396484375,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 4,
+              "rms": 9.5367431640625e-07,
+              "max": 6.103515625e-05,
+              "p99": 0.0,
+              "different_fraction": 0.000390625,
+              "max_8bit": 0.01556396484375,
+              "max_half_ulps": 1
+            }
+          ]
+        },
+        {
+          "rms": 1.7168209197145282e-06,
+          "max": 0.000244140625,
+          "p99": 0.0,
+          "different_fraction": 0.0002734375,
+          "max_8bit": 0.062255859375,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 2,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 3.4123854345071458e-06,
+              "max": 0.000244140625,
+              "p99": 0.0,
+              "different_fraction": 0.000390625,
+              "max_8bit": 0.062255859375,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 1,
+              "rms": 4.273291202103317e-07,
+              "max": 3.0517578125e-05,
+              "p99": 0.0,
+              "different_fraction": 0.0005859375,
+              "max_8bit": 0.007781982421875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 2,
+              "rms": 1.7059852933806117e-06,
+              "max": 0.0001220703125,
+              "p99": 0.0,
+              "different_fraction": 0.000390625,
+              "max_8bit": 0.0311279296875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "yuv444ph-impulse",
+        "format": "yuv444ph",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "impulse",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 1,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 2,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "rgbh-constant",
+        "format": "rgbh",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "constant",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 1,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 2,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "rgbh-ramp",
+        "format": "rgbh",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "ramp",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 3.7376247295885895e-06,
+          "max": 0.00048828125,
+          "p99": 0.0,
+          "different_fraction": 0.0001171875,
+          "max_8bit": 0.12451171875,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 8.357582969744355e-06,
+              "max": 0.00048828125,
+              "p99": 0.0,
+              "different_fraction": 0.0005859375,
+              "max_8bit": 0.12451171875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 3.7376247295885895e-06,
+          "max": 0.00048828125,
+          "p99": 0.0,
+          "different_fraction": 0.0001171875,
+          "max_8bit": 0.12451171875,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 1,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 8.357582969744355e-06,
+              "max": 0.00048828125,
+              "p99": 0.0,
+              "different_fraction": 0.0005859375,
+              "max_8bit": 0.12451171875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 3.7376247295885895e-06,
+          "max": 0.00048828125,
+          "p99": 0.0,
+          "different_fraction": 0.0001171875,
+          "max_8bit": 0.12451171875,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 2,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 8.357582969744355e-06,
+              "max": 0.00048828125,
+              "p99": 0.0,
+              "different_fraction": 0.0005859375,
+              "max_8bit": 0.12451171875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "rgbh-noise",
+        "format": "rgbh",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "noise",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 4.037096116736741e-06,
+          "max": 0.00048828125,
+          "p99": 0.0,
+          "different_fraction": 0.00015625,
+          "max_8bit": 0.12451171875,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 1,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 8.357582969744355e-06,
+              "max": 0.00048828125,
+              "p99": 0.0,
+              "different_fraction": 0.0005859375,
+              "max_8bit": 0.12451171875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 3.4119689598080286e-06,
+              "max": 0.000244140625,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 0.062255859375,
+              "max_half_ulps": 1
+            }
+          ]
+        },
+        {
+          "rms": 3.4119689598080286e-06,
+          "max": 0.00048828125,
+          "p99": 0.0,
+          "different_fraction": 7.8125e-05,
+          "max_8bit": 0.12451171875,
+          "max_half_ulps": 1,
+          "reference": "oracle",
+          "plane": 2,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 3.4119689598080286e-06,
+              "max": 0.000244140625,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 0.062255859375,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 2,
+              "rms": 6.823937919616057e-06,
+              "max": 0.00048828125,
+              "p99": 0.0,
+              "different_fraction": 0.0001953125,
+              "max_8bit": 0.12451171875,
+              "max_half_ulps": 1
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    },
+    {
+      "case": {
+        "name": "rgbh-impulse",
+        "format": "rgbh",
+        "width": 80,
+        "height": 64,
+        "length": 5,
+        "pattern": "impulse",
+        "params": {}
+      },
+      "node_params": {},
+      "passed": true,
+      "metrics": [
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 0,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 1,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        },
+        {
+          "rms": 0.0,
+          "max": 0.0,
+          "p99": 0.0,
+          "different_fraction": 0.0,
+          "max_8bit": 0.0,
+          "max_half_ulps": 0,
+          "reference": "oracle",
+          "plane": 2,
+          "tolerance": {
+            "half_ulps": 1
+          },
+          "passed": true,
+          "frames": [
+            {
+              "frame": 0,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 1,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 2,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 3,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            },
+            {
+              "frame": 4,
+              "rms": 0.0,
+              "max": 0.0,
+              "p99": 0.0,
+              "different_fraction": 0.0,
+              "max_8bit": 0.0,
+              "max_half_ulps": 0
+            }
+          ]
+        }
+      ],
+      "properties_preserved": true,
+      "unselected_planes_exact": true,
+      "serial_requests": 23,
+      "concurrent_requests": 15,
+      "request_order_independent": true
+    }
+  ],
+  "passed": true
+}

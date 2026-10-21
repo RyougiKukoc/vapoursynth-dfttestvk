@@ -5327,6 +5327,771 @@ result += vec2(value[0].x * phase[0].x - value[0].y * phase[0].y,
 #endif
 }
 
+#if T == 3
+void main() {
+#if WARP_TILE
+    int tile = int(gl_SubgroupID);
+    int lane = int(gl_SubgroupInvocationID);
+    // The host launches full 32-lane subgroups. The upper half exits before
+    // any shared access; subsequent subgroup barriers synchronize the same
+    // surviving 16 invocations and never synchronize the whole workgroup.
+    if (lane >= N) return;
+#elif SUBGROUP
+    int tile = int(gl_SubgroupID) * (int(gl_SubgroupSize) / N) + int(gl_SubgroupInvocationID) / N;
+    int lane = int(gl_SubgroupInvocationID) % N;
+#else
+    int tile = int(gl_LocalInvocationID.x) / N;
+    int lane = int(gl_LocalInvocationID.x) % N;
+#endif
+    int groupId = int(gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x);
+    int blockId = groupId * TILES + tile;
+    bool validBlock = blockId < pc.blocksX * pc.blocksY;
+    int originX = (blockId % pc.blocksX) * STEP - pc.padX;
+    int originY = (blockId / pc.blocksX) * STEP - pc.padY;
+    int sharedBase = tile * N * (N + 1);
+
+
+#if ZMEAN
+    if (lane == 0) {
+        vec2 dc[T];
+        {
+{
+
+            dc[0] = validBlock ? readCachedSpectrum(0,blockId,0,0)*temporalFactors[0] : vec2(0.0);
+        
+}
+}
+        dftTemporal(dc);
+        blockMean[tile] = dc[0].x / windowSpectrum(0,0).x;
+    }
+    TILE_BARRIER();
+#endif
+    vec2 column[N];
+    if (lane <= N/2) {
+        {
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,0,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[0] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,1,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[1] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,2,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[2] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,3,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[3] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,4,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[4] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,5,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[5] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,6,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[6] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,7,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[7] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,8,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[8] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,9,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[9] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,10,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[10] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,11,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[11] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,12,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[12] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,13,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[13] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,14,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[14] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,15,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+}
+            column[15] = inverseTemporalCenter(temporal);
+        
+}
+}
+        idft16(column);
+        {
+{
+transposeStore(sharedBase + 0 * (N + 1) + lane,column[0]);
+}
+{
+transposeStore(sharedBase + 1 * (N + 1) + lane,column[1]);
+}
+{
+transposeStore(sharedBase + 2 * (N + 1) + lane,column[2]);
+}
+{
+transposeStore(sharedBase + 3 * (N + 1) + lane,column[3]);
+}
+{
+transposeStore(sharedBase + 4 * (N + 1) + lane,column[4]);
+}
+{
+transposeStore(sharedBase + 5 * (N + 1) + lane,column[5]);
+}
+{
+transposeStore(sharedBase + 6 * (N + 1) + lane,column[6]);
+}
+{
+transposeStore(sharedBase + 7 * (N + 1) + lane,column[7]);
+}
+{
+transposeStore(sharedBase + 8 * (N + 1) + lane,column[8]);
+}
+{
+transposeStore(sharedBase + 9 * (N + 1) + lane,column[9]);
+}
+{
+transposeStore(sharedBase + 10 * (N + 1) + lane,column[10]);
+}
+{
+transposeStore(sharedBase + 11 * (N + 1) + lane,column[11]);
+}
+{
+transposeStore(sharedBase + 12 * (N + 1) + lane,column[12]);
+}
+{
+transposeStore(sharedBase + 13 * (N + 1) + lane,column[13]);
+}
+{
+transposeStore(sharedBase + 14 * (N + 1) + lane,column[14]);
+}
+{
+transposeStore(sharedBase + 15 * (N + 1) + lane,column[15]);
+}
+}
+    }
+    TILE_BARRIER();
+    float realData[N + 2];
+    {
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 0);
+        realData[2*0] = v.x;
+        realData[2*0+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 1);
+        realData[2*1] = v.x;
+        realData[2*1+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 2);
+        realData[2*2] = v.x;
+        realData[2*2+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 3);
+        realData[2*3] = v.x;
+        realData[2*3+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 4);
+        realData[2*4] = v.x;
+        realData[2*4+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 5);
+        realData[2*5] = v.x;
+        realData[2*5+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 6);
+        realData[2*6] = v.x;
+        realData[2*6+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 7);
+        realData[2*7] = v.x;
+        realData[2*7+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 8);
+        realData[2*8] = v.x;
+        realData[2*8+1] = v.y;
+    
+}
+}
+    TILE_BARRIER();
+    irdft16(realData);
+    // FFTW's generated r2cb codelet uses the reverse real ordering.
+    {
+{
+transposeStoreReal(sharedBase + 0 * (N + 1) + lane,realData[0 == 0 ? 0 : N-0]);
+}
+{
+transposeStoreReal(sharedBase + 1 * (N + 1) + lane,realData[1 == 0 ? 0 : N-1]);
+}
+{
+transposeStoreReal(sharedBase + 2 * (N + 1) + lane,realData[2 == 0 ? 0 : N-2]);
+}
+{
+transposeStoreReal(sharedBase + 3 * (N + 1) + lane,realData[3 == 0 ? 0 : N-3]);
+}
+{
+transposeStoreReal(sharedBase + 4 * (N + 1) + lane,realData[4 == 0 ? 0 : N-4]);
+}
+{
+transposeStoreReal(sharedBase + 5 * (N + 1) + lane,realData[5 == 0 ? 0 : N-5]);
+}
+{
+transposeStoreReal(sharedBase + 6 * (N + 1) + lane,realData[6 == 0 ? 0 : N-6]);
+}
+{
+transposeStoreReal(sharedBase + 7 * (N + 1) + lane,realData[7 == 0 ? 0 : N-7]);
+}
+{
+transposeStoreReal(sharedBase + 8 * (N + 1) + lane,realData[8 == 0 ? 0 : N-8]);
+}
+{
+transposeStoreReal(sharedBase + 9 * (N + 1) + lane,realData[9 == 0 ? 0 : N-9]);
+}
+{
+transposeStoreReal(sharedBase + 10 * (N + 1) + lane,realData[10 == 0 ? 0 : N-10]);
+}
+{
+transposeStoreReal(sharedBase + 11 * (N + 1) + lane,realData[11 == 0 ? 0 : N-11]);
+}
+{
+transposeStoreReal(sharedBase + 12 * (N + 1) + lane,realData[12 == 0 ? 0 : N-12]);
+}
+{
+transposeStoreReal(sharedBase + 13 * (N + 1) + lane,realData[13 == 0 ? 0 : N-13]);
+}
+{
+transposeStoreReal(sharedBase + 14 * (N + 1) + lane,realData[14 == 0 ? 0 : N-14]);
+}
+{
+transposeStoreReal(sharedBase + 15 * (N + 1) + lane,realData[15 == 0 ? 0 : N-15]);
+}
+}
+    TILE_BARRIER();
+    if (validBlock)
+        {
+{
+block[blockId*N*N + 0*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+0);
+}
+{
+block[blockId*N*N + 1*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+1);
+}
+{
+block[blockId*N*N + 2*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+2);
+}
+{
+block[blockId*N*N + 3*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+3);
+}
+{
+block[blockId*N*N + 4*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+4);
+}
+{
+block[blockId*N*N + 5*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+5);
+}
+{
+block[blockId*N*N + 6*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+6);
+}
+{
+block[blockId*N*N + 7*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+7);
+}
+{
+block[blockId*N*N + 8*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+8);
+}
+{
+block[blockId*N*N + 9*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+9);
+}
+{
+block[blockId*N*N + 10*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+10);
+}
+{
+block[blockId*N*N + 11*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+11);
+}
+{
+block[blockId*N*N + 12*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+12);
+}
+{
+block[blockId*N*N + 13*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+13);
+}
+{
+block[blockId*N*N + 14*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+14);
+}
+{
+block[blockId*N*N + 15*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+15);
+}
+}
+}
+#else
 void main() {
 #if WARP_TILE
     int tile = int(gl_SubgroupID);
@@ -6303,6 +7068,7 @@ block[blockId*N*N + 15*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+15)
 }
 }
 #endif
+#endif
 #if T == 3
 vec2 inverseTemporalCenter(vec2 value[T]) {
 #if T == 1
@@ -6334,6 +7100,1421 @@ result += vec2(value[2].x * phase[2].x - value[2].y * phase[2].y,
 #endif
 }
 
+#if T == 3
+void main() {
+#if WARP_TILE
+    int tile = int(gl_SubgroupID);
+    int lane = int(gl_SubgroupInvocationID);
+    // The host launches full 32-lane subgroups. The upper half exits before
+    // any shared access; subsequent subgroup barriers synchronize the same
+    // surviving 16 invocations and never synchronize the whole workgroup.
+    if (lane >= N) return;
+#elif SUBGROUP
+    int tile = int(gl_SubgroupID) * (int(gl_SubgroupSize) / N) + int(gl_SubgroupInvocationID) / N;
+    int lane = int(gl_SubgroupInvocationID) % N;
+#else
+    int tile = int(gl_LocalInvocationID.x) / N;
+    int lane = int(gl_LocalInvocationID.x) % N;
+#endif
+    int groupId = int(gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x);
+    int blockId = groupId * TILES + tile;
+    bool validBlock = blockId < pc.blocksX * pc.blocksY;
+    int originX = (blockId % pc.blocksX) * STEP - pc.padX;
+    int originY = (blockId / pc.blocksX) * STEP - pc.padY;
+    int sharedBase = tile * N * (N + 1);
+
+
+#if ZMEAN
+    if (lane == 0) {
+        vec2 dc[T];
+        {
+{
+
+            dc[0] = validBlock ? readCachedSpectrum(0,blockId,0,0)*temporalFactors[0] : vec2(0.0);
+        
+}
+{
+
+            dc[1] = validBlock ? readCachedSpectrum(1,blockId,0,0)*temporalFactors[1] : vec2(0.0);
+        
+}
+{
+
+            dc[2] = validBlock ? readCachedSpectrum(2,blockId,0,0)*temporalFactors[2] : vec2(0.0);
+        
+}
+}
+        dftTemporal(dc);
+        blockMean[tile] = dc[0].x / windowSpectrum(0,0).x;
+    }
+    TILE_BARRIER();
+#endif
+    vec2 column[N];
+    if (lane <= N/2) {
+        {
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,0,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,0,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,0,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[0] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,1,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,1,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,1,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[1] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,2,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,2,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,2,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[2] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,3,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,3,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,3,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[3] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,4,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,4,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,4,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[4] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,5,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,5,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,5,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[5] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,6,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,6,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,6,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[6] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,7,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,7,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,7,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[7] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,8,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,8,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,8,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[8] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,9,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,9,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,9,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[9] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,10,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,10,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,10,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[10] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,11,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,11,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,11,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[11] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,12,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,12,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,12,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[12] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,13,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,13,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,13,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[13] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,14,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,14,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,14,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[14] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,15,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,15,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,15,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+}
+            column[15] = inverseTemporalCenter(temporal);
+        
+}
+}
+        idft16(column);
+        {
+{
+transposeStore(sharedBase + 0 * (N + 1) + lane,column[0]);
+}
+{
+transposeStore(sharedBase + 1 * (N + 1) + lane,column[1]);
+}
+{
+transposeStore(sharedBase + 2 * (N + 1) + lane,column[2]);
+}
+{
+transposeStore(sharedBase + 3 * (N + 1) + lane,column[3]);
+}
+{
+transposeStore(sharedBase + 4 * (N + 1) + lane,column[4]);
+}
+{
+transposeStore(sharedBase + 5 * (N + 1) + lane,column[5]);
+}
+{
+transposeStore(sharedBase + 6 * (N + 1) + lane,column[6]);
+}
+{
+transposeStore(sharedBase + 7 * (N + 1) + lane,column[7]);
+}
+{
+transposeStore(sharedBase + 8 * (N + 1) + lane,column[8]);
+}
+{
+transposeStore(sharedBase + 9 * (N + 1) + lane,column[9]);
+}
+{
+transposeStore(sharedBase + 10 * (N + 1) + lane,column[10]);
+}
+{
+transposeStore(sharedBase + 11 * (N + 1) + lane,column[11]);
+}
+{
+transposeStore(sharedBase + 12 * (N + 1) + lane,column[12]);
+}
+{
+transposeStore(sharedBase + 13 * (N + 1) + lane,column[13]);
+}
+{
+transposeStore(sharedBase + 14 * (N + 1) + lane,column[14]);
+}
+{
+transposeStore(sharedBase + 15 * (N + 1) + lane,column[15]);
+}
+}
+    }
+    TILE_BARRIER();
+    float realData[N + 2];
+    {
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 0);
+        realData[2*0] = v.x;
+        realData[2*0+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 1);
+        realData[2*1] = v.x;
+        realData[2*1+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 2);
+        realData[2*2] = v.x;
+        realData[2*2+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 3);
+        realData[2*3] = v.x;
+        realData[2*3+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 4);
+        realData[2*4] = v.x;
+        realData[2*4+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 5);
+        realData[2*5] = v.x;
+        realData[2*5+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 6);
+        realData[2*6] = v.x;
+        realData[2*6+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 7);
+        realData[2*7] = v.x;
+        realData[2*7+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 8);
+        realData[2*8] = v.x;
+        realData[2*8+1] = v.y;
+    
+}
+}
+    TILE_BARRIER();
+    irdft16(realData);
+    // FFTW's generated r2cb codelet uses the reverse real ordering.
+    {
+{
+transposeStoreReal(sharedBase + 0 * (N + 1) + lane,realData[0 == 0 ? 0 : N-0]);
+}
+{
+transposeStoreReal(sharedBase + 1 * (N + 1) + lane,realData[1 == 0 ? 0 : N-1]);
+}
+{
+transposeStoreReal(sharedBase + 2 * (N + 1) + lane,realData[2 == 0 ? 0 : N-2]);
+}
+{
+transposeStoreReal(sharedBase + 3 * (N + 1) + lane,realData[3 == 0 ? 0 : N-3]);
+}
+{
+transposeStoreReal(sharedBase + 4 * (N + 1) + lane,realData[4 == 0 ? 0 : N-4]);
+}
+{
+transposeStoreReal(sharedBase + 5 * (N + 1) + lane,realData[5 == 0 ? 0 : N-5]);
+}
+{
+transposeStoreReal(sharedBase + 6 * (N + 1) + lane,realData[6 == 0 ? 0 : N-6]);
+}
+{
+transposeStoreReal(sharedBase + 7 * (N + 1) + lane,realData[7 == 0 ? 0 : N-7]);
+}
+{
+transposeStoreReal(sharedBase + 8 * (N + 1) + lane,realData[8 == 0 ? 0 : N-8]);
+}
+{
+transposeStoreReal(sharedBase + 9 * (N + 1) + lane,realData[9 == 0 ? 0 : N-9]);
+}
+{
+transposeStoreReal(sharedBase + 10 * (N + 1) + lane,realData[10 == 0 ? 0 : N-10]);
+}
+{
+transposeStoreReal(sharedBase + 11 * (N + 1) + lane,realData[11 == 0 ? 0 : N-11]);
+}
+{
+transposeStoreReal(sharedBase + 12 * (N + 1) + lane,realData[12 == 0 ? 0 : N-12]);
+}
+{
+transposeStoreReal(sharedBase + 13 * (N + 1) + lane,realData[13 == 0 ? 0 : N-13]);
+}
+{
+transposeStoreReal(sharedBase + 14 * (N + 1) + lane,realData[14 == 0 ? 0 : N-14]);
+}
+{
+transposeStoreReal(sharedBase + 15 * (N + 1) + lane,realData[15 == 0 ? 0 : N-15]);
+}
+}
+    TILE_BARRIER();
+    if (validBlock)
+        {
+{
+block[blockId*N*N + 0*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+0);
+}
+{
+block[blockId*N*N + 1*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+1);
+}
+{
+block[blockId*N*N + 2*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+2);
+}
+{
+block[blockId*N*N + 3*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+3);
+}
+{
+block[blockId*N*N + 4*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+4);
+}
+{
+block[blockId*N*N + 5*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+5);
+}
+{
+block[blockId*N*N + 6*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+6);
+}
+{
+block[blockId*N*N + 7*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+7);
+}
+{
+block[blockId*N*N + 8*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+8);
+}
+{
+block[blockId*N*N + 9*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+9);
+}
+{
+block[blockId*N*N + 10*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+10);
+}
+{
+block[blockId*N*N + 11*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+11);
+}
+{
+block[blockId*N*N + 12*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+12);
+}
+{
+block[blockId*N*N + 13*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+13);
+}
+{
+block[blockId*N*N + 14*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+14);
+}
+{
+block[blockId*N*N + 15*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+15);
+}
+}
+}
+#else
 void main() {
 #if WARP_TILE
     int tile = int(gl_SubgroupID);
@@ -8154,6 +10335,7 @@ block[blockId*N*N + 15*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+15)
 }
 }
 #endif
+#endif
 #if T == 5
 vec2 inverseTemporalCenter(vec2 value[T]) {
 #if T == 1
@@ -8193,6 +10375,2071 @@ result += vec2(value[4].x * phase[4].x - value[4].y * phase[4].y,
 #endif
 }
 
+#if T == 3
+void main() {
+#if WARP_TILE
+    int tile = int(gl_SubgroupID);
+    int lane = int(gl_SubgroupInvocationID);
+    // The host launches full 32-lane subgroups. The upper half exits before
+    // any shared access; subsequent subgroup barriers synchronize the same
+    // surviving 16 invocations and never synchronize the whole workgroup.
+    if (lane >= N) return;
+#elif SUBGROUP
+    int tile = int(gl_SubgroupID) * (int(gl_SubgroupSize) / N) + int(gl_SubgroupInvocationID) / N;
+    int lane = int(gl_SubgroupInvocationID) % N;
+#else
+    int tile = int(gl_LocalInvocationID.x) / N;
+    int lane = int(gl_LocalInvocationID.x) % N;
+#endif
+    int groupId = int(gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x);
+    int blockId = groupId * TILES + tile;
+    bool validBlock = blockId < pc.blocksX * pc.blocksY;
+    int originX = (blockId % pc.blocksX) * STEP - pc.padX;
+    int originY = (blockId / pc.blocksX) * STEP - pc.padY;
+    int sharedBase = tile * N * (N + 1);
+
+
+#if ZMEAN
+    if (lane == 0) {
+        vec2 dc[T];
+        {
+{
+
+            dc[0] = validBlock ? readCachedSpectrum(0,blockId,0,0)*temporalFactors[0] : vec2(0.0);
+        
+}
+{
+
+            dc[1] = validBlock ? readCachedSpectrum(1,blockId,0,0)*temporalFactors[1] : vec2(0.0);
+        
+}
+{
+
+            dc[2] = validBlock ? readCachedSpectrum(2,blockId,0,0)*temporalFactors[2] : vec2(0.0);
+        
+}
+{
+
+            dc[3] = validBlock ? readCachedSpectrum(3,blockId,0,0)*temporalFactors[3] : vec2(0.0);
+        
+}
+{
+
+            dc[4] = validBlock ? readCachedSpectrum(4,blockId,0,0)*temporalFactors[4] : vec2(0.0);
+        
+}
+}
+        dftTemporal(dc);
+        blockMean[tile] = dc[0].x / windowSpectrum(0,0).x;
+    }
+    TILE_BARRIER();
+#endif
+    vec2 column[N];
+    if (lane <= N/2) {
+        {
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,0,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,0,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,0,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,0,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,0,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[0] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,1,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,1,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,1,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,1,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,1,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[1] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,2,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,2,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,2,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,2,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,2,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[2] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,3,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,3,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,3,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,3,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,3,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[3] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,4,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,4,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,4,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,4,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,4,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[4] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,5,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,5,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,5,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,5,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,5,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[5] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,6,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,6,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,6,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,6,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,6,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[6] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,7,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,7,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,7,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,7,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,7,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[7] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,8,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,8,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,8,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,8,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,8,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[8] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,9,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,9,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,9,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,9,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,9,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[9] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,10,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,10,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,10,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,10,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,10,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[10] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,11,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,11,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,11,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,11,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,11,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[11] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,12,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,12,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,12,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,12,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,12,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[12] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,13,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,13,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,13,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,13,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,13,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[13] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,14,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,14,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,14,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,14,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,14,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[14] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,15,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,15,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,15,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,15,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,15,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+}
+            column[15] = inverseTemporalCenter(temporal);
+        
+}
+}
+        idft16(column);
+        {
+{
+transposeStore(sharedBase + 0 * (N + 1) + lane,column[0]);
+}
+{
+transposeStore(sharedBase + 1 * (N + 1) + lane,column[1]);
+}
+{
+transposeStore(sharedBase + 2 * (N + 1) + lane,column[2]);
+}
+{
+transposeStore(sharedBase + 3 * (N + 1) + lane,column[3]);
+}
+{
+transposeStore(sharedBase + 4 * (N + 1) + lane,column[4]);
+}
+{
+transposeStore(sharedBase + 5 * (N + 1) + lane,column[5]);
+}
+{
+transposeStore(sharedBase + 6 * (N + 1) + lane,column[6]);
+}
+{
+transposeStore(sharedBase + 7 * (N + 1) + lane,column[7]);
+}
+{
+transposeStore(sharedBase + 8 * (N + 1) + lane,column[8]);
+}
+{
+transposeStore(sharedBase + 9 * (N + 1) + lane,column[9]);
+}
+{
+transposeStore(sharedBase + 10 * (N + 1) + lane,column[10]);
+}
+{
+transposeStore(sharedBase + 11 * (N + 1) + lane,column[11]);
+}
+{
+transposeStore(sharedBase + 12 * (N + 1) + lane,column[12]);
+}
+{
+transposeStore(sharedBase + 13 * (N + 1) + lane,column[13]);
+}
+{
+transposeStore(sharedBase + 14 * (N + 1) + lane,column[14]);
+}
+{
+transposeStore(sharedBase + 15 * (N + 1) + lane,column[15]);
+}
+}
+    }
+    TILE_BARRIER();
+    float realData[N + 2];
+    {
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 0);
+        realData[2*0] = v.x;
+        realData[2*0+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 1);
+        realData[2*1] = v.x;
+        realData[2*1+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 2);
+        realData[2*2] = v.x;
+        realData[2*2+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 3);
+        realData[2*3] = v.x;
+        realData[2*3+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 4);
+        realData[2*4] = v.x;
+        realData[2*4+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 5);
+        realData[2*5] = v.x;
+        realData[2*5+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 6);
+        realData[2*6] = v.x;
+        realData[2*6+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 7);
+        realData[2*7] = v.x;
+        realData[2*7+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 8);
+        realData[2*8] = v.x;
+        realData[2*8+1] = v.y;
+    
+}
+}
+    TILE_BARRIER();
+    irdft16(realData);
+    // FFTW's generated r2cb codelet uses the reverse real ordering.
+    {
+{
+transposeStoreReal(sharedBase + 0 * (N + 1) + lane,realData[0 == 0 ? 0 : N-0]);
+}
+{
+transposeStoreReal(sharedBase + 1 * (N + 1) + lane,realData[1 == 0 ? 0 : N-1]);
+}
+{
+transposeStoreReal(sharedBase + 2 * (N + 1) + lane,realData[2 == 0 ? 0 : N-2]);
+}
+{
+transposeStoreReal(sharedBase + 3 * (N + 1) + lane,realData[3 == 0 ? 0 : N-3]);
+}
+{
+transposeStoreReal(sharedBase + 4 * (N + 1) + lane,realData[4 == 0 ? 0 : N-4]);
+}
+{
+transposeStoreReal(sharedBase + 5 * (N + 1) + lane,realData[5 == 0 ? 0 : N-5]);
+}
+{
+transposeStoreReal(sharedBase + 6 * (N + 1) + lane,realData[6 == 0 ? 0 : N-6]);
+}
+{
+transposeStoreReal(sharedBase + 7 * (N + 1) + lane,realData[7 == 0 ? 0 : N-7]);
+}
+{
+transposeStoreReal(sharedBase + 8 * (N + 1) + lane,realData[8 == 0 ? 0 : N-8]);
+}
+{
+transposeStoreReal(sharedBase + 9 * (N + 1) + lane,realData[9 == 0 ? 0 : N-9]);
+}
+{
+transposeStoreReal(sharedBase + 10 * (N + 1) + lane,realData[10 == 0 ? 0 : N-10]);
+}
+{
+transposeStoreReal(sharedBase + 11 * (N + 1) + lane,realData[11 == 0 ? 0 : N-11]);
+}
+{
+transposeStoreReal(sharedBase + 12 * (N + 1) + lane,realData[12 == 0 ? 0 : N-12]);
+}
+{
+transposeStoreReal(sharedBase + 13 * (N + 1) + lane,realData[13 == 0 ? 0 : N-13]);
+}
+{
+transposeStoreReal(sharedBase + 14 * (N + 1) + lane,realData[14 == 0 ? 0 : N-14]);
+}
+{
+transposeStoreReal(sharedBase + 15 * (N + 1) + lane,realData[15 == 0 ? 0 : N-15]);
+}
+}
+    TILE_BARRIER();
+    if (validBlock)
+        {
+{
+block[blockId*N*N + 0*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+0);
+}
+{
+block[blockId*N*N + 1*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+1);
+}
+{
+block[blockId*N*N + 2*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+2);
+}
+{
+block[blockId*N*N + 3*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+3);
+}
+{
+block[blockId*N*N + 4*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+4);
+}
+{
+block[blockId*N*N + 5*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+5);
+}
+{
+block[blockId*N*N + 6*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+6);
+}
+{
+block[blockId*N*N + 7*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+7);
+}
+{
+block[blockId*N*N + 8*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+8);
+}
+{
+block[blockId*N*N + 9*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+9);
+}
+{
+block[blockId*N*N + 10*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+10);
+}
+{
+block[blockId*N*N + 11*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+11);
+}
+{
+block[blockId*N*N + 12*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+12);
+}
+{
+block[blockId*N*N + 13*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+13);
+}
+{
+block[blockId*N*N + 14*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+14);
+}
+{
+block[blockId*N*N + 15*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+15);
+}
+}
+}
+#else
 void main() {
 #if WARP_TILE
     int tile = int(gl_SubgroupID);
@@ -10857,6 +15104,7 @@ block[blockId*N*N + 15*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+15)
 }
 }
 #endif
+#endif
 #if T == 7
 vec2 inverseTemporalCenter(vec2 value[T]) {
 #if T == 1
@@ -10904,6 +15152,2721 @@ result += vec2(value[6].x * phase[6].x - value[6].y * phase[6].y,
 #endif
 }
 
+#if T == 3
+void main() {
+#if WARP_TILE
+    int tile = int(gl_SubgroupID);
+    int lane = int(gl_SubgroupInvocationID);
+    // The host launches full 32-lane subgroups. The upper half exits before
+    // any shared access; subsequent subgroup barriers synchronize the same
+    // surviving 16 invocations and never synchronize the whole workgroup.
+    if (lane >= N) return;
+#elif SUBGROUP
+    int tile = int(gl_SubgroupID) * (int(gl_SubgroupSize) / N) + int(gl_SubgroupInvocationID) / N;
+    int lane = int(gl_SubgroupInvocationID) % N;
+#else
+    int tile = int(gl_LocalInvocationID.x) / N;
+    int lane = int(gl_LocalInvocationID.x) % N;
+#endif
+    int groupId = int(gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x);
+    int blockId = groupId * TILES + tile;
+    bool validBlock = blockId < pc.blocksX * pc.blocksY;
+    int originX = (blockId % pc.blocksX) * STEP - pc.padX;
+    int originY = (blockId / pc.blocksX) * STEP - pc.padY;
+    int sharedBase = tile * N * (N + 1);
+
+
+#if ZMEAN
+    if (lane == 0) {
+        vec2 dc[T];
+        {
+{
+
+            dc[0] = validBlock ? readCachedSpectrum(0,blockId,0,0)*temporalFactors[0] : vec2(0.0);
+        
+}
+{
+
+            dc[1] = validBlock ? readCachedSpectrum(1,blockId,0,0)*temporalFactors[1] : vec2(0.0);
+        
+}
+{
+
+            dc[2] = validBlock ? readCachedSpectrum(2,blockId,0,0)*temporalFactors[2] : vec2(0.0);
+        
+}
+{
+
+            dc[3] = validBlock ? readCachedSpectrum(3,blockId,0,0)*temporalFactors[3] : vec2(0.0);
+        
+}
+{
+
+            dc[4] = validBlock ? readCachedSpectrum(4,blockId,0,0)*temporalFactors[4] : vec2(0.0);
+        
+}
+{
+
+            dc[5] = validBlock ? readCachedSpectrum(5,blockId,0,0)*temporalFactors[5] : vec2(0.0);
+        
+}
+{
+
+            dc[6] = validBlock ? readCachedSpectrum(6,blockId,0,0)*temporalFactors[6] : vec2(0.0);
+        
+}
+}
+        dftTemporal(dc);
+        blockMean[tile] = dc[0].x / windowSpectrum(0,0).x;
+    }
+    TILE_BARRIER();
+#endif
+    vec2 column[N];
+    if (lane <= N/2) {
+        {
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,0,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,0,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,0,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,0,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,0,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,0,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,0,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 0) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+0,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[0] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,1,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,1,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,1,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,1,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,1,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,1,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,1,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 1) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+1,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[1] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,2,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,2,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,2,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,2,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,2,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,2,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,2,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 2) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+2,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[2] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,3,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,3,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,3,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,3,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,3,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,3,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,3,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 3) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+3,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[3] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,4,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,4,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,4,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,4,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,4,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,4,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,4,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 4) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+4,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[4] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,5,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,5,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,5,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,5,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,5,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,5,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,5,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 5) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+5,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[5] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,6,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,6,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,6,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,6,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,6,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,6,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,6,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 6) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+6,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[6] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,7,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,7,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,7,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,7,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,7,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,7,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,7,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 7) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+7,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[7] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,8,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,8,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,8,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,8,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,8,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,8,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,8,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 8) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+8,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[8] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,9,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,9,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,9,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,9,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,9,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,9,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,9,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 9) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+9,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[9] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,10,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,10,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,10,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,10,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,10,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,10,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,10,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 10) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+10,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[10] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,11,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,11,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,11,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,11,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,11,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,11,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,11,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 11) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+11,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[11] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,12,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,12,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,12,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,12,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,12,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,12,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,12,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 12) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+12,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[12] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,13,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,13,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,13,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,13,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,13,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,13,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,13,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 13) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+13,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[13] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,14,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,14,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,14,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,14,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,14,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,14,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,14,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 14) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+14,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[14] = inverseTemporalCenter(temporal);
+        
+}
+{
+
+            vec2 temporal[T];
+            {
+{
+
+                temporal[0] = validBlock ? readCachedSpectrum(0,blockId,15,lane)*temporalFactors[0] : vec2(0.0);
+            
+}
+{
+
+                temporal[1] = validBlock ? readCachedSpectrum(1,blockId,15,lane)*temporalFactors[1] : vec2(0.0);
+            
+}
+{
+
+                temporal[2] = validBlock ? readCachedSpectrum(2,blockId,15,lane)*temporalFactors[2] : vec2(0.0);
+            
+}
+{
+
+                temporal[3] = validBlock ? readCachedSpectrum(3,blockId,15,lane)*temporalFactors[3] : vec2(0.0);
+            
+}
+{
+
+                temporal[4] = validBlock ? readCachedSpectrum(4,blockId,15,lane)*temporalFactors[4] : vec2(0.0);
+            
+}
+{
+
+                temporal[5] = validBlock ? readCachedSpectrum(5,blockId,15,lane)*temporalFactors[5] : vec2(0.0);
+            
+}
+{
+
+                temporal[6] = validBlock ? readCachedSpectrum(6,blockId,15,lane)*temporalFactors[6] : vec2(0.0);
+            
+}
+}
+            dftTemporal(temporal);
+            {
+{
+
+                int frequency = (0 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[0];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(0*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[0] = v;
+            
+}
+{
+
+                int frequency = (1 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[1];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(1*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[1] = v;
+            
+}
+{
+
+                int frequency = (2 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[2];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(2*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[2] = v;
+            
+}
+{
+
+                int frequency = (3 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[3];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(3*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[3] = v;
+            
+}
+{
+
+                int frequency = (4 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[4];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(4*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[4] = v;
+            
+}
+{
+
+                int frequency = (5 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[5];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(5*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[5] = v;
+            
+}
+{
+
+                int frequency = (6 * N + 15) * (N / 2 + 1) + lane;
+                vec2 v = temporal[6];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(6*N+15,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[6] = v;
+            
+}
+}
+            column[15] = inverseTemporalCenter(temporal);
+        
+}
+}
+        idft16(column);
+        {
+{
+transposeStore(sharedBase + 0 * (N + 1) + lane,column[0]);
+}
+{
+transposeStore(sharedBase + 1 * (N + 1) + lane,column[1]);
+}
+{
+transposeStore(sharedBase + 2 * (N + 1) + lane,column[2]);
+}
+{
+transposeStore(sharedBase + 3 * (N + 1) + lane,column[3]);
+}
+{
+transposeStore(sharedBase + 4 * (N + 1) + lane,column[4]);
+}
+{
+transposeStore(sharedBase + 5 * (N + 1) + lane,column[5]);
+}
+{
+transposeStore(sharedBase + 6 * (N + 1) + lane,column[6]);
+}
+{
+transposeStore(sharedBase + 7 * (N + 1) + lane,column[7]);
+}
+{
+transposeStore(sharedBase + 8 * (N + 1) + lane,column[8]);
+}
+{
+transposeStore(sharedBase + 9 * (N + 1) + lane,column[9]);
+}
+{
+transposeStore(sharedBase + 10 * (N + 1) + lane,column[10]);
+}
+{
+transposeStore(sharedBase + 11 * (N + 1) + lane,column[11]);
+}
+{
+transposeStore(sharedBase + 12 * (N + 1) + lane,column[12]);
+}
+{
+transposeStore(sharedBase + 13 * (N + 1) + lane,column[13]);
+}
+{
+transposeStore(sharedBase + 14 * (N + 1) + lane,column[14]);
+}
+{
+transposeStore(sharedBase + 15 * (N + 1) + lane,column[15]);
+}
+}
+    }
+    TILE_BARRIER();
+    float realData[N + 2];
+    {
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 0);
+        realData[2*0] = v.x;
+        realData[2*0+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 1);
+        realData[2*1] = v.x;
+        realData[2*1+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 2);
+        realData[2*2] = v.x;
+        realData[2*2+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 3);
+        realData[2*3] = v.x;
+        realData[2*3+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 4);
+        realData[2*4] = v.x;
+        realData[2*4+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 5);
+        realData[2*5] = v.x;
+        realData[2*5+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 6);
+        realData[2*6] = v.x;
+        realData[2*6+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 7);
+        realData[2*7] = v.x;
+        realData[2*7+1] = v.y;
+    
+}
+{
+
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + 8);
+        realData[2*8] = v.x;
+        realData[2*8+1] = v.y;
+    
+}
+}
+    TILE_BARRIER();
+    irdft16(realData);
+    // FFTW's generated r2cb codelet uses the reverse real ordering.
+    {
+{
+transposeStoreReal(sharedBase + 0 * (N + 1) + lane,realData[0 == 0 ? 0 : N-0]);
+}
+{
+transposeStoreReal(sharedBase + 1 * (N + 1) + lane,realData[1 == 0 ? 0 : N-1]);
+}
+{
+transposeStoreReal(sharedBase + 2 * (N + 1) + lane,realData[2 == 0 ? 0 : N-2]);
+}
+{
+transposeStoreReal(sharedBase + 3 * (N + 1) + lane,realData[3 == 0 ? 0 : N-3]);
+}
+{
+transposeStoreReal(sharedBase + 4 * (N + 1) + lane,realData[4 == 0 ? 0 : N-4]);
+}
+{
+transposeStoreReal(sharedBase + 5 * (N + 1) + lane,realData[5 == 0 ? 0 : N-5]);
+}
+{
+transposeStoreReal(sharedBase + 6 * (N + 1) + lane,realData[6 == 0 ? 0 : N-6]);
+}
+{
+transposeStoreReal(sharedBase + 7 * (N + 1) + lane,realData[7 == 0 ? 0 : N-7]);
+}
+{
+transposeStoreReal(sharedBase + 8 * (N + 1) + lane,realData[8 == 0 ? 0 : N-8]);
+}
+{
+transposeStoreReal(sharedBase + 9 * (N + 1) + lane,realData[9 == 0 ? 0 : N-9]);
+}
+{
+transposeStoreReal(sharedBase + 10 * (N + 1) + lane,realData[10 == 0 ? 0 : N-10]);
+}
+{
+transposeStoreReal(sharedBase + 11 * (N + 1) + lane,realData[11 == 0 ? 0 : N-11]);
+}
+{
+transposeStoreReal(sharedBase + 12 * (N + 1) + lane,realData[12 == 0 ? 0 : N-12]);
+}
+{
+transposeStoreReal(sharedBase + 13 * (N + 1) + lane,realData[13 == 0 ? 0 : N-13]);
+}
+{
+transposeStoreReal(sharedBase + 14 * (N + 1) + lane,realData[14 == 0 ? 0 : N-14]);
+}
+{
+transposeStoreReal(sharedBase + 15 * (N + 1) + lane,realData[15 == 0 ? 0 : N-15]);
+}
+}
+    TILE_BARRIER();
+    if (validBlock)
+        {
+{
+block[blockId*N*N + 0*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+0);
+}
+{
+block[blockId*N*N + 1*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+1);
+}
+{
+block[blockId*N*N + 2*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+2);
+}
+{
+block[blockId*N*N + 3*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+3);
+}
+{
+block[blockId*N*N + 4*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+4);
+}
+{
+block[blockId*N*N + 5*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+5);
+}
+{
+block[blockId*N*N + 6*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+6);
+}
+{
+block[blockId*N*N + 7*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+7);
+}
+{
+block[blockId*N*N + 8*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+8);
+}
+{
+block[blockId*N*N + 9*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+9);
+}
+{
+block[blockId*N*N + 10*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+10);
+}
+{
+block[blockId*N*N + 11*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+11);
+}
+{
+block[blockId*N*N + 12*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+12);
+}
+{
+block[blockId*N*N + 13*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+13);
+}
+{
+block[blockId*N*N + 14*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+14);
+}
+{
+block[blockId*N*N + 15*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+15);
+}
+}
+}
+#else
 void main() {
 #if WARP_TILE
     int tile = int(gl_SubgroupID);
@@ -14412,6 +21375,7 @@ block[blockId*N*N + 15*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+15)
 }
 }
 #endif
+#endif
 #else
 vec2 inverseTemporalCenter(vec2 value[T]) {
 #if T == 1
@@ -14432,6 +21396,86 @@ vec2 inverseTemporalCenter(vec2 value[T]) {
 #endif
 }
 
+#if T == 3
+void main() {
+#if WARP_TILE
+    int tile = int(gl_SubgroupID);
+    int lane = int(gl_SubgroupInvocationID);
+    // The host launches full 32-lane subgroups. The upper half exits before
+    // any shared access; subsequent subgroup barriers synchronize the same
+    // surviving 16 invocations and never synchronize the whole workgroup.
+    if (lane >= N) return;
+#elif SUBGROUP
+    int tile = int(gl_SubgroupID) * (int(gl_SubgroupSize) / N) + int(gl_SubgroupInvocationID) / N;
+    int lane = int(gl_SubgroupInvocationID) % N;
+#else
+    int tile = int(gl_LocalInvocationID.x) / N;
+    int lane = int(gl_LocalInvocationID.x) % N;
+#endif
+    int groupId = int(gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x);
+    int blockId = groupId * TILES + tile;
+    bool validBlock = blockId < pc.blocksX * pc.blocksY;
+    int originX = (blockId % pc.blocksX) * STEP - pc.padX;
+    int originY = (blockId / pc.blocksX) * STEP - pc.padY;
+    int sharedBase = tile * N * (N + 1);
+
+
+#if ZMEAN
+    if (lane == 0) {
+        vec2 dc[T];
+        UNROLL_LOOP for (int t=0; t<T; ++t) {
+            dc[t] = validBlock ? readCachedSpectrum(t,blockId,0,0)*temporalFactors[t] : vec2(0.0);
+        }
+        dftTemporal(dc);
+        blockMean[tile] = dc[0].x / windowSpectrum(0,0).x;
+    }
+    TILE_BARRIER();
+#endif
+    vec2 column[N];
+    if (lane <= N/2) {
+        UNROLL_LOOP for (int y=0; y<N; ++y) {
+            vec2 temporal[T];
+            UNROLL_LOOP for (int t=0; t<T; ++t) {
+                temporal[t] = validBlock ? readCachedSpectrum(t,blockId,y,lane)*temporalFactors[t] : vec2(0.0);
+            }
+            dftTemporal(temporal);
+            UNROLL_LOOP for (int t=0; t<T; ++t) {
+                int frequency = (t * N + y) * (N / 2 + 1) + lane;
+                vec2 v = temporal[t];
+#if ZMEAN
+                vec2 meanFrequency = blockMean[tile] * windowSpectrum(t*N+y,lane);
+                v -= meanFrequency;
+#endif
+                v = filterFrequency(v, getSigma(frequency));
+#if ZMEAN
+                v += meanFrequency;
+#endif
+                temporal[t] = v;
+            }
+            column[y] = inverseTemporalCenter(temporal);
+        }
+        idft16(column);
+        UNROLL_LOOP for (int y=0; y<N; ++y)
+            transposeStore(sharedBase + y * (N + 1) + lane,column[y]);
+    }
+    TILE_BARRIER();
+    float realData[N + 2];
+    UNROLL_LOOP for (int x=0; x<=N/2; ++x) {
+        vec2 v = transposeLoad(sharedBase + lane * (N + 1) + x);
+        realData[2*x] = v.x;
+        realData[2*x+1] = v.y;
+    }
+    TILE_BARRIER();
+    irdft16(realData);
+    // FFTW's generated r2cb codelet uses the reverse real ordering.
+    UNROLL_LOOP for (int x=0; x<N; ++x)
+        transposeStoreReal(sharedBase + x * (N + 1) + lane,realData[x == 0 ? 0 : N-x]);
+    TILE_BARRIER();
+    if (validBlock)
+        UNROLL_LOOP for (int y=0; y<N; ++y)
+            block[blockId*N*N + y*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+y);
+}
+#else
 void main() {
 #if WARP_TILE
     int tile = int(gl_SubgroupID);
@@ -14515,6 +21559,7 @@ void main() {
         UNROLL_LOOP for (int y=0; y<N; ++y)
             block[blockId*N*N + y*N + lane] = transposeLoadReal(sharedBase + lane*(N+1)+y);
 }
+#endif
 #endif
 )glsl";
 } // namespace cached_shader
